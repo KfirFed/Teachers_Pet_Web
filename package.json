@@ -2,10 +2,10 @@
   "name": "web_class_01",
   "version": "1.0.0",
   "description": "Assignment 01 for web class",
-  "main": "app.js",
+  "main": "app.ts",
   "scripts": {
-    "dev": "nodemon app.ts",
-    "start": "node app.js",
+    "dev": "nodemon src/app.ts",
+    "start": "node /src/app.ts",
     "test": "jest --detectOpenHandles --forceExit --coverage"
   },
   "author": "Kfir&Ofri",
