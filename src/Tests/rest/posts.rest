@@ -1,0 +1,37 @@
+###
+
+POST http://localhost:3000/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhhN2U1MTQ4ZTQ5ZDhhMjRhZGYzYjMiLCJyYW5kb20iOiIwLjU5OTY1NzExMDU0Mjc3NSIsImlhdCI6MTczNzE0NjQ4NywiZXhwIjoxNzM3NzUxMjg3fQ.diGhSkoOnaE9suKnW_eC4OF8XHLQCGurJctTjwjexb0
+
+{
+    "title": "Hello",
+    "senderId": "12345",
+    "content": "post 2 with Authorization"
+}
+
+###
+
+GET http://localhost:3000/posts/all
+
+###
+
+GET http://localhost:3000/posts/678ac65bda5795165afc99e7
+
+###
+
+GET http://localhost:3000/posts?sender=12345
+
+###
+
+PUT http://localhost:3000/posts/678ac65bda5795165afc99e7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhhN2U1MTQ4ZTQ5ZDhhMjRhZGYzYjMiLCJyYW5kb20iOiIwLjU5OTY1NzExMDU0Mjc3NSIsImlhdCI6MTczNzE0NjQ4NywiZXhwIjoxNzM3NzUxMjg3fQ.diGhSkoOnaE9suKnW_eC4OF8XHLQCGurJctTjwjexb0
+
+{
+    "title": "Authorization",
+    "senderId": "12345",
+    "content": "new"
+}
+
+###

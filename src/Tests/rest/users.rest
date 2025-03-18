@@ -1,0 +1,34 @@
+###
+
+GET http://localhost:3000/users/all
+
+###
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "auth user",
+    "password": "123456",
+    "email": "auth@gmail.com"
+}
+
+
+###
+GET http://localhost:3000/users/678ac78d40e3aee404f57e82
+
+###
+PUT http://localhost:3000/users/678ac78d40e3aee404f57e82
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhhN2U1MTQ4ZTQ5ZDhhMjRhZGYzYjMiLCJyYW5kb20iOiIwLjU5OTY1NzExMDU0Mjc3NSIsImlhdCI6MTczNzE0NjQ4NywiZXhwIjoxNzM3NzUxMjg3fQ.diGhSkoOnaE9suKnW_eC4OF8XHLQCGurJctTjwjexb0
+
+{
+    "username": "hey",
+    "password": "new1234",
+    "email": "updateAuthUser@walla.com"
+}
+
+###
+DELETE http://localhost:3000/users/678ac78d40e3aee404f57e82
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhhN2U1MTQ4ZTQ5ZDhhMjRhZGYzYjMiLCJyYW5kb20iOiIwLjU5OTY1NzExMDU0Mjc3NSIsImlhdCI6MTczNzE0NjQ4NywiZXhwIjoxNzM3NzUxMjg3fQ.diGhSkoOnaE9suKnW_eC4OF8XHLQCGurJctTjwjexb0
+
