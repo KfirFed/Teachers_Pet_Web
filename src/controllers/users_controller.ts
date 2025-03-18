@@ -1,4 +1,4 @@
-import usersModel from "../models/users_model";
+import usersModel, { User } from "../models/users_model";
 
 const getAllUsers = async (req, res) => {
   try {
@@ -65,7 +65,22 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-export default {
+export const getUserByEmail = async (userEmail: string) => {
+  const user = await usersModel.findOne({userEmail})
+  if (!user) {
+    throw new Error("User not found")
+  }
+  return user
+};
+
+export const createGoogleUser = async (user: User) => {
+  return await usersModel.create(user)
+};
+
+export const updateRefreshTokenByUserId = (userId, newRefreshToken) =>
+  usersModel.findByIdAndUpdate(userId, { refreshToken: newRefreshToken }, { new: true });
+
+export default{
   getAllUsers,
   getUserById,
   createUser,

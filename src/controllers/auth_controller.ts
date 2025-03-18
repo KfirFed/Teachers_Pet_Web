@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import userModel from "../models/users_model";
 import { generateToken, verifyRefreshToken } from "./../utils/auth";
+import { verifyGoogleToken } from "./../utils/googleAuth"
+import {getUserByEmail, createGoogleUser, updateRefreshTokenByUserId} from "./users_controller"
 
 const register = async (req: Request, res: Response) => {
   try {
@@ -95,4 +97,28 @@ const refresh = async (req: Request, res: Response) => {
   }
 };
 
-export default { register, login, logout, refresh };
+export const googleLogin = async (credential: string) => {
+  const googleUser = await verifyGoogleToken(credential);
+  let user = await getUserByEmail(googleUser.email);
+
+  if (!user) {
+    user = await createGoogleUser({
+      email: googleUser.email,
+      username: googleUser.username,
+      password: "password",
+      refreshToken: [],
+    });
+  }
+
+  const userTokens = generateToken(user.id);
+  await updateRefreshTokenByUserId(user, userTokens.refreshToken);
+
+  return {
+    mail: user.email,
+    password: user.password,
+    username: user.username,
+    refreshToken: userTokens.refreshToken
+  };
+};
+
+export default { register, login, logout, refresh, googleLogin };
