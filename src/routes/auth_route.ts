@@ -152,4 +152,41 @@ router.post("/refresh", authController.refresh);
  *         description: Server error
  */
 
+router.post("/google", authController.googleLogin);
+  
+/**
+ * @swagger
+ * /auth/google:
+ *   post:
+ *     summary: Google login
+ *     description: Create user with google auth
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               credential:
+ *                 type: string
+ *                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *     responses:
+ *       200:
+ *         description: User login with google successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 credential:
+ *                   type: string
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *       400:
+ *         description: Invalid credential
+ *       500:
+ *         description: Server error
+ */
+
 export default router;

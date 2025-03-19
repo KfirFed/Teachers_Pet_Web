@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import userModel from "../models/users_model";
 import { generateToken, verifyRefreshToken } from "./../utils/auth";
+import { verifyGoogleToken } from "./../utils/googleAuth"
+import {getUserByEmail, createGoogleUser, updateRefreshTokenByUserId} from "./users_controller"
+import { User } from "./../models/users_model";
 
 const register = async (req: Request, res: Response) => {
   try {
@@ -95,4 +98,42 @@ const refresh = async (req: Request, res: Response) => {
   }
 };
 
-export default { register, login, logout, refresh };
+export const googleLogin = async (req: Request, res: Response) => {
+
+  try {
+    const { credential } = req.body;
+    
+    if (!credential) {
+      throw new Error("Google credential is required");
+    }
+
+    const googleUser = await verifyGoogleToken(credential);
+    let user: User = await getUserByEmail(googleUser.email);
+
+    if (!user) {
+      user = await createGoogleUser({
+        email: googleUser.email,
+        username: googleUser.username,
+        password: "password",
+        refreshToken: [],
+      });
+    }
+
+    const userTokens = generateToken(user._id);
+    await updateRefreshTokenByUserId(user, userTokens.refreshToken);
+
+    user = {
+      email: user.email,
+      password: user.password,
+      username: user.username,
+      refreshToken: [userTokens.refreshToken]
+    };
+    
+    res.status(200).send(user._id);
+  } catch (error: any) {
+    res.status(401).json({ error: error.message });
+  }
+
+};
+
+export default { register, login, logout, refresh, googleLogin };
