@@ -8,6 +8,7 @@ import commentsRoute from "./routes/comments_route";
 import postsRoute from "./routes/posts_route";
 import usersRoute from "./routes/users_route";
 import authRoute from "./routes/auth_route";
+import aiRoute from "./routes/ai_route";
 
 dotenv.config();
 const app: Express = express();
@@ -26,6 +27,7 @@ app.use("/comments", commentsRoute);
 app.use("/posts", postsRoute);
 app.use("/users", usersRoute);
 app.use("/auth", authRoute);
+app.use("/ai", aiRoute);
 
 export const swagger = (app: Express) => {
     const swaggerOptions = {
