@@ -9,6 +9,8 @@ import postsRoute from "./routes/posts_route";
 import usersRoute from "./routes/users_route";
 import authRoute from "./routes/auth_route";
 import aiRoute from "./routes/ai_route";
+import imagesRoute from "./routes/images_route"
+import path from "path"
 
 dotenv.config();
 const app: Express = express();
@@ -28,22 +30,29 @@ app.use("/posts", postsRoute);
 app.use("/users", usersRoute);
 app.use("/auth", authRoute);
 app.use("/ai", aiRoute);
+app.use("/public", express.static("public"));
+app.use("/image", imagesRoute);
+app.use(express.static("images"));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join("images", "index.html"));
+});
 
 export const swagger = (app: Express) => {
-    const swaggerOptions = {
-      definition: {
-        openapi: "3.0.0",
-        info: {
-          title: "Web class 01 - Ofri & Kfir REST API",
-          version: "1.0.0",
-          description: "Ofri & Kfir REST server with jwt authentication",
-        },
-        servers: [{ url: `http://localhost:${port}` }],
+  const swaggerOptions = {
+    definition: {
+      openapi: "3.0.0",
+      info: {
+        title: "Web class 01 - Ofri & Kfir REST API",
+        version: "1.0.0",
+        description: "Ofri & Kfir REST server with jwt authentication",
       },
-      apis: ["./routes/*.ts"],
-    };
-    const specs = swaggerJsDoc(swaggerOptions);
-    app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+      servers: [{ url: `${process.env.BASE_URL + port}` }],
+    },
+    apis: ["./routes/*.ts"],
+  };
+  const specs = swaggerJsDoc(swaggerOptions);
+  app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 };
 
