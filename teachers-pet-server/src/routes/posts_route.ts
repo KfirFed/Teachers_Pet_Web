@@ -229,4 +229,43 @@ router.put("/:id", authMiddleware, postsController.updatePostById);
  *              description: Not Found
  */
 
+/**
+ * @swagger
+ * /posts/{id}/like:
+ *  put:
+ *   summary: Like a post
+ *  tags:
+ *   - Posts
+ * security:
+ *  - bearerAuth: []
+ * parameters:
+ * - name: id
+ *  in: path
+ * required: true
+ * schema:
+ * type: string
+ * requestBody:
+ * required: true
+ * content:
+ * application/json:
+ * schema:
+ * type: object
+ * properties:
+ * senderId:
+ * type: string
+ * required:
+ * - senderId
+ * responses:
+ * 200:
+ * description: Like added/removed
+ * 404:
+ * description: Post not found
+ * 500:
+ * description: Server error
+ * 
+ */
+
+router.put("/:id/like", authMiddleware, postsController.handleLikeClick);
+
+
 export default router;

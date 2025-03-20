@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const postSchema = new mongoose.Schema({
   title: {
@@ -9,6 +9,10 @@ const postSchema = new mongoose.Schema({
   senderId: {
     type: String,
     required: true,
+  },
+  likes: {
+    type: [{ type: Schema.Types.ObjectId, ref: "Users" }],
+    default: [],
   },
 });
 

@@ -61,10 +61,41 @@ const updatePostById = async (req, res) => {
   }
 };
 
+const handleLikeClick = async (req, res) => {
+  const postId = req.params.id;
+  const senderId = req.body.senderId;
+
+  try {
+    const post = await PostModel.findById(postId);
+    let likes = post.likes;
+
+    if (likes.includes(senderId)) {
+      likes = likes.filter((id) => id !== senderId);
+      try {
+        await PostModel.findByIdAndUpdate(postId, { likes });
+        res.status(200).send("Like removed");
+      } catch (error) {
+        res.status(400).send(error.message);
+      }
+    } else {
+      likes.push(senderId);
+      try {
+        await PostModel.findByIdAndUpdate(postId, { likes });
+        res.status(200).send("Like removed");
+      } catch (error) {
+        res.status(400).send(error.message);
+      }
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 export default {
   getAllPosts,
   createPost,
   getPostById,
   getAllPostsBySenderId,
   updatePostById,
+  handleLikeClick,
 };

@@ -150,4 +150,34 @@ describe("Posts Test", () => {
 
     expect([404, 400].includes(response.statusCode)).toBeTruthy();
   });
+
+  test("Test like post", async () => {
+    const response = await request(app)
+      .put(`/posts/${testPosts[0]._id.toString()}/like`)
+      .set("Content-Type", "application/json")
+      .send({ senderId: testUser._id })
+      .set({ authorization: `JWT ${testUser.token}` });
+
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("Test dislike post", async () => {
+    const response = await request(app)
+      .put(`/posts/${testPosts[0]._id.toString()}/like`)
+      .set("Content-Type", "application/json")
+      .send({ senderId: testUser._id })
+      .set({ authorization: `JWT ${testUser.token}` });
+
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("Test fail to like post", async () => {
+    const response = await request(app)
+      .put(`/posts/${"fake_id"}/like`)
+      .set("Content-Type", "application/json")
+      .send({ senderId: testUser._id })
+      .set({ authorization: `JWT ${testUser.token}` });
+
+    expect([404, 400].includes(response.statusCode)).toBeTruthy();
+  });
 });

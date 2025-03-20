@@ -3,6 +3,7 @@ export type Post = {
   title: string;
   content: string;
   senderId: string;
+  likes: string[];
 };
 
 export type Comment = {
