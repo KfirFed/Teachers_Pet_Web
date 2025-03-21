@@ -1,17 +1,13 @@
 import React from "react";
 import logo from "../../assets/logo.png";
 import styles from "./Login.module.css";
+import { useNavigate } from "react-router-dom";
 
-interface LoginProps {
-  // onLoginClick: () => void;
-  // onSignupClick: () => void;
-}
+interface LoginProps {}
 
-export const Login: React.FC<LoginProps> = (
-  {
-    // onLoginClick, onSignupClick
-  }
-) => {
+export const Login: React.FC<LoginProps> = ({}) => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Login</h1>
@@ -31,17 +27,11 @@ export const Login: React.FC<LoginProps> = (
       </div>
 
       <div>
-        <button
-          className={`${styles.button} ${styles.signUpButton}`}
-          // onClick={onSignupClick}
-        >
+        <button className={`${styles.button} ${styles.signUpButton}`}>
           Log In
         </button>
 
-        <button
-          className={`${styles.button} ${styles.loginButton}`}
-          // onClick={onLoginClick}
-        >
+        <button className={`${styles.button} ${styles.loginButton}`} onClick={() => navigate("/")}>
           Cancel
         </button>
       </div>
@@ -50,22 +40,9 @@ export const Login: React.FC<LoginProps> = (
 };
 
 const App: React.FC = () => {
-  const handleLoginClick = () => {
-    console.log("Login button clicked");
-    // Navigate to login page
-  };
-
-  const handleSignupClick = () => {
-    console.log("Sign Up button clicked");
-    // Navigate to signup page
-  };
-
   return (
     <div>
-      <Login
-      // onLoginClick={handleLoginClick}
-      // onSignupClick={handleSignupClick}
-      />
+      <Login />
     </div>
   );
 };
