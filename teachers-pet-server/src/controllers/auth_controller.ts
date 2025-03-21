@@ -116,6 +116,7 @@ export const googleLogin = async (req: Request, res: Response) => {
         username: googleUser.username,
         password: "password",
         refreshToken: [],
+        profileImage: ""
       });
     }
 
@@ -126,7 +127,8 @@ export const googleLogin = async (req: Request, res: Response) => {
       email: user.email,
       password: user.password,
       username: user.username,
-      refreshToken: [userTokens.refreshToken]
+      refreshToken: [userTokens.refreshToken],
+      profileImage: "",
     };
     
     res.status(200).send(user._id);
