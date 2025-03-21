@@ -21,7 +21,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({}) => {
       <div>
         <button
           className={`${styles.button} ${styles.signUpButton}`}
-          // onClick={onSignupClick}
+          onClick={() => navigate("/register")}
         >
           Sign Up
         </button>
