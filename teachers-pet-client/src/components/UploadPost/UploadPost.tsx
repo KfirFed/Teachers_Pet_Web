@@ -1,17 +1,37 @@
 import { Card, CardContent } from "@mui/material";
 import PostForm from "./../Posts/PostForm";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { axiosCreatePost } from "./../../axios/Post";
 import { CreatePost } from "../../types/Post";
 import { useNavigate } from "react-router-dom";
+import { axiosCreateImage } from "./../../axios/Images"
 
 export const UploadPost: React.FC = () => {
 
     const { connectedUser } = useContext(UserContext);
     const navigate = useNavigate();
+    const [imageFile, setImageFile] = useState<File>();
 
-    const onUpload = async (title: string, content: string, image: string) => {
+    const uploadImage = async (file: File) => {
+        const ImageData = new FormData();
+        let imageUrl: string = "";
+
+        if (file) {
+            ImageData.append("file", file);
+            try {
+                const response = await axiosCreateImage(ImageData);
+                imageUrl = response.data.url as string;
+                return imageUrl;
+            } catch (err) {
+                console.log(err);
+                return;
+            }
+        }
+        return imageUrl
+    };
+
+    const onUpload = async (title: string, content: string) => {
 
         try {
             const accessToken = connectedUser?.accessToken;
@@ -21,7 +41,7 @@ export const UploadPost: React.FC = () => {
                 return;
             }
 
-            const imageUrl: string | undefined = ""
+            const imageUrl = uploadImage(imageFile!!)
 
             const post: CreatePost = {
                 title,
@@ -53,7 +73,7 @@ export const UploadPost: React.FC = () => {
             }}
         >
             <CardContent>
-                <PostForm onSubmit={onUpload} />
+                <PostForm onSubmit={onUpload} setImageFile={setImageFile} />
             </CardContent>
         </Card>
     );

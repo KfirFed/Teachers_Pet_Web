@@ -10,7 +10,7 @@ interface Post {
 interface CreatePost {
     title: string;
     content: string;
-    image: string;
+    image: Promise<string | undefined>;
     senderId: string;
     likes: string[];
 }

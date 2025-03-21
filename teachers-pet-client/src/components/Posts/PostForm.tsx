@@ -1,11 +1,23 @@
 import React, { useState } from "react";
-import { Typography, TextField, Button, Alert, Box } from "@mui/material";
+import { Typography, TextField, Button, Alert, Box, styled, CardMedia } from "@mui/material";
 
 interface PostFormProps {
     onSubmit: (title: string, content: string, image: string) => void;
+    setImageFile: (image: File) => void;
 }
 
-const PostForm: React.FC<PostFormProps> = ({ onSubmit }) => {
+const ImageView = styled(Box)(({ theme }) => ({
+    width: "100%",
+    height: 200,
+    backgroundColor: theme.palette.grey[200],
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+}));
+
+const PostForm: React.FC<PostFormProps> = ({ onSubmit, setImageFile }) => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [image, setImage] = useState("");
@@ -18,11 +30,19 @@ const PostForm: React.FC<PostFormProps> = ({ onSubmit }) => {
         setLoading(true);
 
         try {
-            await onSubmit(title, content, image);
+            onSubmit(title, content, image);
         } catch (err) {
             setErrors({ submit: "There was an error" });
         } finally {
             setLoading(false);
+        }
+    };
+
+    const onImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const newURL = URL.createObjectURL(e.target.files[0]);
+            setImage(newURL);
+            setImageFile(e.target.files[0]);
         }
     };
 
@@ -54,16 +74,22 @@ const PostForm: React.FC<PostFormProps> = ({ onSubmit }) => {
                     error={!!errors.content}
                     helperText={errors.content}
                 />
-                <TextField
-                    fullWidth
-                    margin="normal"
-                    type="file"
-                    value={image}
-                    onChange={(e) => setImage(e.target.value)}
-                    required
-                    error={!!errors.image}
-                    helperText={errors.image}
-                />
+                <label
+                    htmlFor='photo-upload'
+                    style={{
+                        cursor: "pointer",
+                    }}>
+                    <input
+                        id='photo-upload'
+                        type='file'
+                        accept='image/*'
+                        onChange={onImageUpload}
+                        style={{ display: "none" }}
+                    />
+                    {image ? (
+                        <CardMedia component='img' height='194' image={image} />
+                    ) : (<ImageView />)}
+                </label>
                 {errors.submit && (
                     <Alert severity="error" sx={{ mt: 2 }}>
                         {errors.submit}
