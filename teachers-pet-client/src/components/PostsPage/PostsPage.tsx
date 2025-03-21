@@ -8,7 +8,7 @@ export const PostsPage: React.FC = () => {
     const [isFiltered, setIsFiltered] = useState<boolean>(false);
     const [postsData, setPostsData] = useState<Post[]>([]);
 
-    // todo: add axios
+    // todo: add axios 
 
     useEffect(() => {
         //todo: add posts data
