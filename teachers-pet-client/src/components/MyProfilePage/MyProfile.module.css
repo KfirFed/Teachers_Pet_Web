@@ -1,0 +1,43 @@
+.container {
+    text-align: center;
+}
+
+.title {
+    font-size: 3rem;
+    margin-bottom: 30px;
+}
+
+.logo {
+    max-width: 450px;
+}
+
+.button {
+    width: 100px;
+    height: 45px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 25px;
+}
+
+.loginButton {
+    background-color: black;
+    color: #ffffff;
+}
+
+.cancelButton {
+    background-color: #ffffff;
+    border-color: black;
+    color: #000000;
+}
+
+.input {
+    width: 30px;
+    height: 40px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 1.2em;
+    border-radius: 25px;
+    border: 1px solid black;
+}

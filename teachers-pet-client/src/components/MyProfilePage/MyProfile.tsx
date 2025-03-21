@@ -7,61 +7,82 @@ import { UserContext } from "../../context/UserContext";
 export const MyProfile: React.FC = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { connectedUser } = useContext(UserContext);
-  const [username, setUsername] = useState("");
-  const [profileImage, setProfileImage] = useState("");
+  const [username, setUsername] = useState(connectedUser?.name || "");
+  const [profileImage, setProfileImage] = useState(connectedUser?.profileImage || "");
   const [loading, setLoading] = useState(false);
 
+  console.log('connectedUser', connectedUser)
+
+
+  // setUsername(connectedUser?.name || "");
+  // setProfileImage(connectedUser?.profileImage || "");
+
   return (
-    <Box>
-      <Typography variant="h5" component="h1" gutterBottom align="center">
-        Register
-      </Typography>
-      <Box component="form" sx={{ mt: 2 }}>
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Email"
-          value={connectedUser?.email}
-          required
-          autoComplete="email"
-          disabled
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          label="UserName"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          autoComplete="Username"
-          error={!!errors.username}
-          helperText={errors.username}
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          type="file"
-          value={profileImage}
-          onChange={(e) => setProfileImage(e.target.value)}
-          required
-          error={!!errors.profileImage}
-          helperText={errors.profileImage}
-        />
-        {errors.submit && (
-          <Alert severity="error" sx={{ mt: 2 }}>
-            {errors.submit}
-          </Alert>
-        )}
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          disabled={loading}
-          sx={{ my: 3 }}
-        >
-          {loading ? "We're on it!" : "Update"}
-        </Button>
-      </Box>
-    </Box>
+    <Card
+      sx={{
+        maxWidth: 400,
+        display: "flex",
+        justifyContent: "center",
+        mx: "auto",
+        mt: 4,
+      }}
+    >
+      <CardContent>
+        <Box>
+          <Typography variant="h5" component="h1" gutterBottom align="center">
+            Edit Profile
+          </Typography>
+          <Box component="form" sx={{ mt: 2 }}>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Email"
+              value={connectedUser?.email}
+              required
+              autoComplete="email"
+              disabled
+              // className={styles.input}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="UserName"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              autoComplete="Username"
+              error={!!errors.username}
+              helperText={errors.username}
+              // className={styles.input}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              type="file"
+              value={profileImage}
+              onChange={(e) => setProfileImage(e.target.value)}
+              required
+              error={!!errors.profileImage}
+              helperText={errors.profileImage}
+              // className={styles.input}
+            />
+            {errors.submit && (
+              <Alert severity="error" sx={{ mt: 2 }}>
+                {errors.submit}
+              </Alert>
+            )}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled={loading}
+              sx={{ my: 3 }}
+            >
+              {loading ? "We're on it!" : "Update"}
+            </Button>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
