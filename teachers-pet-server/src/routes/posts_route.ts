@@ -24,13 +24,19 @@ const router = express.Router();
  *                   type: string
  *               content:
  *                   type: string
+ *               image:
+ *                   type: string
  *               senderId:
  *                   type: string
+ *               likes:
+ *                   type:[string]
  *           example:
  *              _id: '6742373ddfdb9be9bf02aacf'
  *              title: 'example title'
  *              content: 'example content'
+ *              image: 'example image'
  *              senderId: '12345'
+ *              likes: ['12345']
  *       CreatePostBody:
  *           type: object
  *           required:
@@ -41,12 +47,18 @@ const router = express.Router();
  *                   type: string
  *               content:
  *                   type: string
+ *               image:
+ *                   type: string
  *               senderId:
  *                   type: string
+ *               likes:
+ *                   type: [string]
  *           example:
  *              title: 'example title'
  *              content: 'example content'
+ *              image: 'example image'
  *              senderId: '12345'
+ *              likes: ['12345']
  *       UpdatePostBody:
  *           type: object
  *           required:
@@ -55,12 +67,18 @@ const router = express.Router();
  *                   type: string
  *               content:
  *                   type: string
+ *               image:
+ *                   type: string
  *               senderId:
  *                   type: string
+ *               likes:
+ *                   type:[string]
  *           example:
  *              title: 'example title'
  *              content: 'example content'
- *              senderId: '123645'
+ *              image: 'example image'
+ *              senderId: '12345'
+ *              likes: ['12345']
  */
 
 router.get("/all", postsController.getAllPosts);
@@ -114,6 +132,12 @@ router.post("/", authMiddleware, postsController.createPost);
  *               senderId:
  *                  type: string
  *                  description: The sender of the post
+ *               image:
+ *                   type: string
+ *                   description: The image of the post
+ *               likes:
+ *                   type: [string]
+ *                   description: The likes of the post
  *             required:
  *               - title
  *               - senderId

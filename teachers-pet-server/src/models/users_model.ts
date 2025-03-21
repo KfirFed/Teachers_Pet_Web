@@ -6,6 +6,7 @@ export interface User {
   username: string;
   _id?: string;
   refreshToken?: string[];
+  profileImage: string;
 }
 
 export type UserType = Document<unknown, {}, User> &
@@ -33,7 +34,11 @@ const usersSchema = new mongoose.Schema<User>({
     type: [String],
     default: [],
   },
-});
+  profileImage: {
+    type: String,
+    required: true
+  }
+})
 
 const usersModel = mongoose.model("Users", usersSchema);
 

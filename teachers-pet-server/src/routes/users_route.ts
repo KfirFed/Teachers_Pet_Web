@@ -25,12 +25,15 @@ const router = express.Router();
  *               password:
  *                   type: string
  *               email:
+ *                   type: string   
+ *               profileImage:
  *                   type: string
  *           example:
  *              _id: '678a7e5148e49d8a24adf3b3'
  *              username: 'example username'
  *              password: 'example password'
  *              email: 'example email@gmail.com'
+ *              profileImage: 'example profile image'
  *       CreateUserBody:
  *           type: object
  *           required:
@@ -44,10 +47,13 @@ const router = express.Router();
  *                   type: string
  *               email:
  *                   type: string
+ *               profileImage:
+ *                   type: string
  *           example:
  *              username: 'Ofri'
  *              password: 'password123'
  *              email: 'ofri@gmail.com'
+ *              profileImage: 'example profile image'
  *       UpdateUserBody:
  *           type: object
  *           required:
@@ -58,10 +64,13 @@ const router = express.Router();
  *                   type: string
  *               email:
  *                   type: string
+ *               profileImage:
+ *                   type: string
  *           example:
  *              username: 'Ofri'
  *              password: 'new password'
  *              email: 'ofri@gmail.com'
+ *              profileImage: 'example profile image'
  */
 
 router.get("/all", usersController.getAllUsers);
@@ -143,6 +152,9 @@ router.post("/", usersController.createUser);
  *               email:
  *                  type: string
  *                  description: The email of the user
+ *               profileImage:
+ *                  type: string
+ *                  description: The profile image of the user
  *             required:
  *              - username
  *              - password
