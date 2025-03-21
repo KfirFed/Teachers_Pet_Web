@@ -59,7 +59,10 @@ const login = async (req: Request, res: Response) => {
     res.status(200).send({
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,
-      _id: user._id,
+      username: user.username,
+      email: user.email,
+      profileImage: user.profileImage,
+      id: user._id,
     });
   } catch (err) {
     res.status(400).send(err);

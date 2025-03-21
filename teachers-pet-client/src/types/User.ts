@@ -1,6 +1,6 @@
 export interface ConnectedUser {
     id: string;
-    name: string;
+    username: string;
     email: string;
     profileImage: string;
     accessToken: string;
