@@ -1,15 +1,19 @@
-// import RegistrationForm from "./RegistrationForm";
 import { Card, CardContent } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useState } from "react";
 import { askAI } from "../../axios/AI";
+import styles from "./Ai.module.css";
 
 export const AiPage: React.FC = () => {
-  let prompt: string = "";
+  const [prompt, setPrompt] = useState("");
+  const [answer, setAnswer] = useState("");
 
-  const onASk = async (prompt: string): Promise<string> => {
+  const onASk = async () => {
     try {
-    return await askAI(prompt);
+      setAnswer("Take a break for a second, you need it! Almost there...");
+      let limitPrompt =
+        prompt + ". Please let it be maximum 300 characters long.";
+      setAnswer(await askAI(limitPrompt));
+      setPrompt("");
     } catch (err: any) {
       console.error(err.message);
       return "Error";
@@ -19,7 +23,7 @@ export const AiPage: React.FC = () => {
   return (
     <Card
       sx={{
-        maxWidth: 400,
+        maxWidth: "80%",
         display: "flex",
         justifyContent: "center",
         mx: "auto",
@@ -28,14 +32,16 @@ export const AiPage: React.FC = () => {
     >
       <CardContent>
         <h1>Ask AI</h1>
-        <p>{onASk(prompt)}</p>
+        <p>{answer}</p>
         <input
           type="text"
           placeholder="Ask a question"
           value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
           style={{ width: "100%" }}
+          className={styles.input}
         />
-        <button onClick={() => onASk("What is the capital of France?")}>
+        <button className={styles.button} onClick={() => onASk()}>
           Ask
         </button>
       </CardContent>
