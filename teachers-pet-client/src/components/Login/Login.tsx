@@ -3,9 +3,9 @@ import logo from "../../assets/logo.png";
 import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
 
-interface LoginProps {}
+interface LoginProps { }
 
-export const Login: React.FC<LoginProps> = ({}) => {
+export const Login: React.FC<LoginProps> = ({ }) => {
   const navigate = useNavigate();
 
   return (
@@ -27,11 +27,11 @@ export const Login: React.FC<LoginProps> = ({}) => {
       </div>
 
       <div>
-        <button className={`${styles.button} ${styles.signUpButton}`}>
+        <button className={`${styles.button} ${styles.loginButton}`}>
           Log In
         </button>
 
-        <button className={`${styles.button} ${styles.loginButton}`} onClick={() => navigate("/")}>
+        <button className={`${styles.button} ${styles.cancelButton}`} onClick={() => navigate("/")}>
           Cancel
         </button>
       </div>
