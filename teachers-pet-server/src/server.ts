@@ -11,9 +11,15 @@ import authRoute from "./routes/auth_route";
 import aiRoute from "./routes/ai_route";
 import imagesRoute from "./routes/images_route"
 import path from "path"
+import cors from "cors";
 
 dotenv.config();
 const app: Express = express();
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 const port = process.env.PORT;
 
 mongoose.connect(process.env.DB_URL as string);

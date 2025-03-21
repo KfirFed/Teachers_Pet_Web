@@ -2,8 +2,12 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import userModel from "../models/users_model";
 import { generateToken, verifyRefreshToken } from "./../utils/auth";
-import { verifyGoogleToken } from "./../utils/googleAuth"
-import { getUserByEmail, createGoogleUser, updateRefreshTokenByUserId } from "./users_controller"
+import { verifyGoogleToken } from "./../utils/googleAuth";
+import {
+  getUserByEmail,
+  createGoogleUser,
+  updateRefreshTokenByUserId,
+} from "./users_controller";
 import { User } from "./../models/users_model";
 
 const register = async (req: Request, res: Response) => {
@@ -99,7 +103,6 @@ const refresh = async (req: Request, res: Response) => {
 };
 
 export const googleLogin = async (req: Request, res: Response) => {
-
   try {
     const { credential } = req.body;
 
@@ -116,7 +119,7 @@ export const googleLogin = async (req: Request, res: Response) => {
         username: googleUser.username,
         password: "password",
         refreshToken: [],
-        profileImage: ""
+        profileImage: "",
       });
     }
 
@@ -128,14 +131,13 @@ export const googleLogin = async (req: Request, res: Response) => {
       password: user.password,
       username: user.username,
       refreshToken: [userTokens.refreshToken],
-      profileImage: ""
+      profileImage: "",
     };
 
     res.status(200).send(user._id);
   } catch (error: any) {
     res.status(401).json({ error: error.message });
   }
-
 };
 
 export default { register, login, logout, refresh, googleLogin };
