@@ -102,7 +102,7 @@ const PostForm: React.FC<PostFormProps> = ({ onSubmit, setImageFile }) => {
                     disabled={loading}
                     sx={{ my: 3 }}
                 >
-                    {loading ? "Almost there.." : "Posted"}
+                    {loading ? "Almost there.." : "Post"}
                 </Button>
             </Box>
         </Box>
