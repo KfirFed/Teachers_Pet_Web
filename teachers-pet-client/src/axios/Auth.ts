@@ -1,4 +1,4 @@
-import axiosConnection from "./axiosConnection";
+import axiosConnection from "./AxiosConnection";
 import { ConnectedUser } from "../types/User";
 
 interface loginInfo {
