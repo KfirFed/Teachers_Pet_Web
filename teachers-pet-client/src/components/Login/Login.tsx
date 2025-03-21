@@ -1,50 +1,23 @@
-import React from "react";
-import logo from "../../assets/logo.png";
-import styles from "./Login.module.css";
-import { useNavigate } from "react-router-dom";
+import { Card, CardContent } from "@mui/material";
+import LoginForm from "./LoginForm";
 
-interface LoginProps { }
+export const Login: React.FC = () => {
+  const handleLogin = async (email: string, password: string) => {
 
-export const Login: React.FC<LoginProps> = ({ }) => {
-  const navigate = useNavigate();
+  };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Login</h1>
-      <div>{<img src={logo} alt="Logo" className={styles.logo} />}</div>
-
-      <div>
-        <div>
-          <input className={styles.input} type="text" placeholder="Username" />
-        </div>
-        <div>
-          <input
-            className={styles.input}
-            type="password"
-            placeholder="Password"
-          />
-        </div>
-      </div>
-
-      <div>
-        <button className={`${styles.button} ${styles.loginButton}`}>
-          Log In
-        </button>
-
-        <button className={`${styles.button} ${styles.cancelButton}`} onClick={() => navigate("/")}>
-          Cancel
-        </button>
-      </div>
-    </div>
+    <Card
+      sx={{
+        maxWidth: 400,
+        display: "flex",
+        justifyContent: "center",
+        mx: "auto",
+        mt: 4,
+      }}>
+      <CardContent>
+        <LoginForm onSubmit={handleLogin} />
+      </CardContent>
+    </Card>
   );
 };
-
-const App: React.FC = () => {
-  return (
-    <div>
-      <Login />
-    </div>
-  );
-};
-
-export default App;
