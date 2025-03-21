@@ -20,4 +20,12 @@ const axiosGetPostsBySender = async (senderId: string | undefined): Promise<Post
     }
 };
 
-export { axiosGetAllPosts, axiosGetPostsBySender }
+const axiosCreatePost = async (post: Post, accessToken: string): Promise<Post[]> => {
+    try {
+        return (await axiosConnection.post(`${POST_ROUTE}/`, post, { headers: { authorization: `Bearer ${accessToken}` } })).data;
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || "Can't save new post");
+    }
+};
+
+export { axiosGetAllPosts, axiosGetPostsBySender, axiosCreatePost }
