@@ -4,6 +4,8 @@ import LandingPage from "./components/LandingPage";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import { PostsPage } from "./components/PostsPage";
+import AiPage from "./components/AiPage";
+
 
 const Router: React.FC = () => {
   return (
@@ -14,6 +16,7 @@ const Router: React.FC = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/posts" element={<PostsPage />} />
+      <Route path="/ai" element={<AiPage />} />
     </Routes>
   );
 };
