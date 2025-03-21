@@ -1,13 +1,16 @@
 import { PostsList } from "../Posts/PostsList";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { IconButton } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Post } from "../../types/Post";
-import { axiosGetAllPosts } from './../../axios/Post'
+import { axiosGetAllPosts, axiosGetPostsBySender } from './../../axios/Post'
+import { UserContext } from "../../context/UserContext";
 
 export const PostsPage: React.FC = () => {
     const [isFiltered, setIsFiltered] = useState<boolean>(false);
     const [postsData, setPostsData] = useState<Post[]>([]);
+
+    const { connectedUser } = useContext(UserContext);
 
     const getAllPosts = async () => {
         try {
@@ -18,13 +21,25 @@ export const PostsPage: React.FC = () => {
         }
     };
 
+    const getPostsByConnectedUser = async (senderId: string | undefined) => {
+        try {
+            const allPostsBySenderId: Post[] = await axiosGetPostsBySender(senderId)
+            setPostsData(allPostsBySenderId)
+        } catch (err: any) {
+            console.error(err.message);
+        }
+    };
+
     useEffect(() => {
         getAllPosts()
     }, []);
 
     useEffect(() => {
-        //todo: add posts data by user
-        setPostsData([])
+        if (isFiltered) {
+            getPostsByConnectedUser(connectedUser?.id)
+        } else {
+            getAllPosts()
+        }
     }, [isFiltered]);
 
     return (
