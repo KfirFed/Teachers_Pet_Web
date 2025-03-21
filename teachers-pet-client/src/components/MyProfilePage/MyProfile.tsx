@@ -4,7 +4,7 @@ import { askAI } from "../../axios/AI";
 import styles from "./MyProfile.module.css";
 import { UserContext } from "../../context/UserContext";
 
-export const AiPage: React.FC = () => {
+export const MyProfile: React.FC = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { connectedUser } = useContext(UserContext);
   const [username, setUsername] = useState("");
