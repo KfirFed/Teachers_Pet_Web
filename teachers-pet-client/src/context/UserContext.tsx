@@ -1,13 +1,5 @@
 import React, { createContext, useState, useCallback } from "react";
-
-export interface ConnectedUser {
-    id: string;
-    name: string;
-    email: string;
-    profileImage: string;
-    accessToken: string;
-    refreshToken: string;
-}
+import { ConnectedUser } from './../types/User'
 
 interface UserContextType {
     connectedUser: ConnectedUser | null;

@@ -1,5 +1,5 @@
 import axiosConnection from "./axiosConnection";
-import { ConnectedUser } from "../context/UserContext";
+import { ConnectedUser } from "../types/User";
 
 interface loginInfo {
     email: string;
