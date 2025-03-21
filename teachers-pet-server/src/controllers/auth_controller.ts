@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import userModel from "../models/users_model";
 import { generateToken, verifyRefreshToken } from "./../utils/auth";
 import { verifyGoogleToken } from "./../utils/googleAuth"
-import {getUserByEmail, createGoogleUser, updateRefreshTokenByUserId} from "./users_controller"
+import { getUserByEmail, createGoogleUser, updateRefreshTokenByUserId } from "./users_controller"
 import { User } from "./../models/users_model";
 
 const register = async (req: Request, res: Response) => {
@@ -102,7 +102,7 @@ export const googleLogin = async (req: Request, res: Response) => {
 
   try {
     const { credential } = req.body;
-    
+
     if (!credential) {
       throw new Error("Google credential is required");
     }
@@ -116,6 +116,7 @@ export const googleLogin = async (req: Request, res: Response) => {
         username: googleUser.username,
         password: "password",
         refreshToken: [],
+        profileImage: ""
       });
     }
 
@@ -126,9 +127,10 @@ export const googleLogin = async (req: Request, res: Response) => {
       email: user.email,
       password: user.password,
       username: user.username,
-      refreshToken: [userTokens.refreshToken]
+      refreshToken: [userTokens.refreshToken],
+      profileImage: ""
     };
-    
+
     res.status(200).send(user._id);
   } catch (error: any) {
     res.status(401).json({ error: error.message });
