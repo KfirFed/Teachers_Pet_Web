@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./components/LandingPage";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import { PostsPage } from "./components/PostsPage";
 
 const Router: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const Router: React.FC = () => {
       <Route path="*" element={<Navigate to="/landing" />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/posts" element={<PostsPage />} />
     </Routes>
   );
 };
