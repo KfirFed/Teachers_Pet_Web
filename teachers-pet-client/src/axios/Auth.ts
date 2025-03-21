@@ -10,3 +10,23 @@ export const login = async (email: string, password: string): Promise<ConnectedU
         throw new Error(error.response?.data?.message || "Login failed");
     }
 };
+
+export const register = async (
+  email: string,
+  username: string,
+  password: string,
+  profileImage: string
+): Promise<ConnectedUser> => {
+  try {
+    return (
+      await axiosConnection.post(`${AUTH_ROUTE}/register`, {
+        email,
+        password,
+        username,
+        profileImage,
+      })
+    ).data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Registration failed");
+  }
+};

@@ -19,6 +19,7 @@ const register = async (req: Request, res: Response) => {
       email: req.body.email,
       username: req.body.username,
       password: hashedPassword,
+      profileImage: req.body.profileImage,
     });
     res.status(200).send(user);
   } catch (err) {
@@ -119,7 +120,7 @@ export const googleLogin = async (req: Request, res: Response) => {
         username: googleUser.username,
         password: "password",
         refreshToken: [],
-        profileImage: "",
+        profileImage: ""
       });
     }
 
