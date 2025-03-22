@@ -5,6 +5,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import AiPage from "./components/AiPage";
 import Profile from "./components/MyProfilePage";
+import { UploadPost } from "./components/UploadPost";
 
 const Router: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const Router: React.FC = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/ai" element={<AiPage />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/uploadPost" element={<UploadPost />} />
     </Routes>
   );
 };

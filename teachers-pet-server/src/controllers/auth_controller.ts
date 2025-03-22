@@ -62,7 +62,7 @@ const login = async (req: Request, res: Response) => {
       username: user.username,
       email: user.email,
       profileImage: user.profileImage,
-      id: user._id,
+      _id: user._id,
     });
   } catch (err) {
     res.status(400).send(err);
