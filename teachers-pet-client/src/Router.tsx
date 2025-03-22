@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import AiPage from "./components/AiPage";
 import Profile from "./components/MyProfilePage";
 import { UploadPost } from "./components/UploadPost";
+import { PostsPage } from "./components/PostsPage";
 
 const Router: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const Router: React.FC = () => {
       <Route path="/ai" element={<AiPage />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/uploadPost" element={<UploadPost />} />
+      <Route path="/posts" element={<PostsPage />} />
     </Routes>
   );
 };

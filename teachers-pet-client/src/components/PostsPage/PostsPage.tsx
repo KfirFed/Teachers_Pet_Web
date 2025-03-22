@@ -36,7 +36,7 @@ export const PostsPage: React.FC = () => {
 
     useEffect(() => {
         if (isFiltered) {
-            getPostsByConnectedUser(connectedUser?.id)
+            getPostsByConnectedUser(connectedUser?._id)
         } else {
             getAllPosts()
         }

@@ -66,6 +66,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
     try {
       uploadImage(imageFile || {} as File);
+      console.log("image url", imageUrl);
       await onSubmit(email, username, password, imageUrl || "");
     } catch (err) {
       setErrors({ submit: "There was an error" });

@@ -20,6 +20,7 @@ app.use(
     origin: "*",
   })
 );
+
 const port = process.env.PORT;
 
 mongoose.connect(process.env.DB_URL as string);
@@ -41,7 +42,7 @@ app.use("/image", imagesRoute);
 app.use(express.static("images"));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join("images", "index.html"));
+  res.sendFile(path.join(__dirname,  "..", "images", "index.html"));
 });
 
 export const swagger = (app: Express) => {
