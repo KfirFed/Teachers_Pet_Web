@@ -66,7 +66,7 @@ const PostForm: React.FC<PostFormProps> = ({ onSubmit, setImageFile }) => {
                 <TextField
                     fullWidth
                     margin="normal"
-                    label="UserName"
+                    label="Content"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     required
