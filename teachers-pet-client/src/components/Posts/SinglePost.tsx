@@ -35,15 +35,17 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
   const [currentPost, setCurrentPost] = useState<Post>(post);
   const [isCommentsOpen, setIsCommentsOpen] = useState<boolean>(false);
   const [commentsNumber, setCommentsNumber] = useState<number>(0);
-  const [commentsData, setCommentsData] = useState<Comment[]>([])
+  const [commentsData, setCommentsData] = useState<Comment[]>([]);
 
-  const handleAddComment = () => setIsCommentsOpen(true)
+  const handleAddComment = () => setIsCommentsOpen(true);
 
   const getAllCommentsByPost = async (postId: string) => {
     try {
-      const allCommentsByPost: Comment[] = await axiosGetAllCommentsByPostId(postId)
-      setCommentsData(allCommentsByPost)
-      setCommentsNumber(commentsData.length)
+      const allCommentsByPost: Comment[] = await axiosGetAllCommentsByPostId(
+        postId
+      );
+      setCommentsData(allCommentsByPost);
+      setCommentsNumber(allCommentsByPost.length);
     } catch (err: any) {
       console.error(err.message);
     }
@@ -71,8 +73,9 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
   };
 
   useEffect(() => {
-    getAllCommentsByPost(post._id)
-    setCommentsNumber(commentsData.length)
+    getAllCommentsByPost(post._id);
+
+    setCommentsNumber(commentsData.length);
   }, [connectedUser]);
 
   return (
@@ -118,13 +121,10 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
                 🗨️: {commentsNumber}
               </Typography>
               <Typography variant="body2" color="text.secondary" paragraph>
-                <button onClick={handleAddComment}>
-                  Add Comment
-                </button>
+                <button onClick={handleAddComment}>Add Comment</button>
               </Typography>
             </div>
           </div>
-
         </Box>
       </CardContent>
       <CommentsModal
