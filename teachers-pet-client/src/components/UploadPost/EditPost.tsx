@@ -7,10 +7,9 @@ import { CreatePost, Post } from "../../types/Post";
 import { useLocation, useNavigate } from "react-router-dom";
 import { axiosCreateImage } from "./../../axios/Images";
 
-
 export const EditPost: React.FC = () => {
   const location = useLocation();
-  const post = location.state?.post as Post; 
+  const post = location.state?.post as Post;
   const { connectedUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [imageFile, setImageFile] = useState<File>();
@@ -76,9 +75,10 @@ export const EditPost: React.FC = () => {
       <CardContent>
         <PostForm onSubmit={onUpload} setImageFile={setImageFile} post={post} />
         <button
-          onClick={() =>
-            deletePost(post?._id || "", connectedUser?.accessToken!!)
-          }
+          onClick={() => {
+            deletePost(post?._id || "", connectedUser?.accessToken!!);
+            navigate("/posts");
+          }}
         >
           Delete Post
         </button>
