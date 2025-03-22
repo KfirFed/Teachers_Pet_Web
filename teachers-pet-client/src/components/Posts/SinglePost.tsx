@@ -13,6 +13,7 @@ import { Post } from "./../../types/Post";
 import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { axiosLikePost } from "../../axios/Post";
+import CommentsModal from "../Comments/CommentsModal";
 
 interface SinglePostProps {
   post: Post;
@@ -30,10 +31,11 @@ const SinglePostStyle = styled(Card)(({ theme }) => ({
 export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
   const { connectedUser } = useContext(UserContext);
   const [currentPost, setCurrentPost] = useState<Post>(post);
+  const [isCommentsOpen, setIsCommentsOpen] = useState<boolean>(false);
 
   const comments = []
 
-  const handleAddComment = () => { }
+  const handleAddComment = () => setIsCommentsOpen(true)
 
   const handleLike = () => {
     if (!connectedUser) return;
@@ -108,6 +110,11 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
 
         </Box>
       </CardContent>
+      <CommentsModal
+        isOpen={isCommentsOpen}
+        onClose={() => setIsCommentsOpen(false)}
+        postId={post._id}
+      />
     </SinglePostStyle>
   );
 };

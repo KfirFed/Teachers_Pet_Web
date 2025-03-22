@@ -13,9 +13,9 @@ export const PostsPage: React.FC = () => {
     const { connectedUser } = useContext(UserContext);
 
     // to remove before push
-    const staticPostData = [
+    const staticPostData: Post[] = [
         {
-            id: '1',
+            _id: '1',
             title: 'First Post',
             content: 'This is the content of the first post.',
             image: 'image1.jpg',
@@ -23,7 +23,7 @@ export const PostsPage: React.FC = () => {
             likes: ['user456', 'user789'],
         },
         {
-            id: '2',
+            _id: '2',
             title: 'A Second Article',
             content: 'Another article with interesting details.',
             image: 'image2.png',
@@ -31,7 +31,7 @@ export const PostsPage: React.FC = () => {
             likes: ['user123', 'user987', 'user000'],
         },
         {
-            id: '3',
+            _id: '3',
             title: 'Third Time\'s the Charm',
             content: 'This is a short post.',
             image: 'image3.gif',
@@ -39,7 +39,7 @@ export const PostsPage: React.FC = () => {
             likes: ['user000'],
         },
         {
-            id: '4',
+            _id: '4',
             title: 'The Final Entry',
             content: 'The last entry in this array of objects. A very long post designed to test how multiline strings are displayed.',
             image: 'image4.jpeg',
