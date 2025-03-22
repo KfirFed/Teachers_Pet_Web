@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Typography, TextField, Button, Alert, Box, styled, CardMedia } from "@mui/material";
+import { Post } from "../../types/Post";
 
 interface PostFormProps {
     onSubmit: (title: string, content: string, image: string) => void;
     setImageFile: (image: File) => void;
+    post?: Post;
 }
 
 const ImageView = styled(Box)(({ theme }) => ({
@@ -17,10 +19,10 @@ const ImageView = styled(Box)(({ theme }) => ({
     marginBottom: theme.spacing(2),
 }));
 
-const PostForm: React.FC<PostFormProps> = ({ onSubmit, setImageFile }) => {
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [image, setImage] = useState("");
+const PostForm: React.FC<PostFormProps> = ({ onSubmit, setImageFile, post }) => {
+    const [title, setTitle] = useState(post?.title || "");
+    const [content, setContent] = useState(post?.content || "");
+    const [image, setImage] = useState(post?.image || "");
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [loading, setLoading] = useState(false);
 

@@ -284,4 +284,30 @@ router.put("/:id/like", authMiddleware, postsController.handleLikeClick);
  *              description: Not Found
  */
 
+router.delete("/:id", authMiddleware, postsController.deletePostById);
+/**
+ * @swagger
+ * /posts/{id}:
+ *  delete:
+ *   summary: Delete a post
+ *  tags:
+ *   - Posts
+ * security:
+ *  - bearerAuth: []
+ * parameters:
+ * - in: path
+ *  name: id
+ * schema:
+ * type: string
+ * required: true
+ * description: The post ID
+ * responses:
+ * 200:
+ * description: Post deleted
+ * 404:
+ * description: Post not found
+ * 500:
+ *  description: Server error
+ */
+
 export default router;

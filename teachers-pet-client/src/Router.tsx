@@ -5,6 +5,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import AiPage from "./components/AiPage";
 import Profile from "./components/MyProfilePage";
+import { EditPost } from "./components/UploadPost/EditPost";
 import { UploadPost } from "./components/UploadPost";
 import { PostsPage } from "./components/PostsPage";
 import { useContext } from "react";
@@ -47,6 +48,16 @@ const Router: React.FC = () => {
         element={
           connectedUser?.accessToken ? (
             <PostsPage />
+          ) : (
+            <Navigate to="/landing" />
+          )
+        }
+      />
+      <Route
+        path="/editPost"
+        element={
+          connectedUser?.accessToken ? (
+            <EditPost post={undefined} />
           ) : (
             <Navigate to="/landing" />
           )

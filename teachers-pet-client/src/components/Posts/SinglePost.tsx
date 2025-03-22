@@ -16,6 +16,7 @@ import { UserContext } from "../../context/UserContext";
 import { axiosLikePost } from "../../axios/Post";
 import CommentsModal from "../Comments/CommentsModal";
 import { axiosGetAllCommentsByPostId } from "../../axios/Comment";
+import { useNavigate } from "react-router-dom";
 
 interface SinglePostProps {
   post: Post;
@@ -31,6 +32,8 @@ const SinglePostStyle = styled(Card)(({ theme }) => ({
 }));
 
 export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
+  const navigate = useNavigate();
+
   const { connectedUser } = useContext(UserContext);
   const [currentPost, setCurrentPost] = useState<Post>(post);
   const [isCommentsOpen, setIsCommentsOpen] = useState<boolean>(false);
@@ -109,7 +112,7 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
                 ❤️: {currentPost.likes.length}
               </Typography>
               <Typography variant="body2" color="text.secondary" paragraph>
-                <button onClick={handleLike}>
+                <button onClick={() => handleLike}>
                   {!currentPost.likes.includes(connectedUser?._id!!)
                     ? "Like"
                     : "Dislike"}
@@ -124,6 +127,13 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
                 <button onClick={handleAddComment}>Add Comment</button>
               </Typography>
             </div>
+          </div>
+          <div hidden={currentPost.senderId !== connectedUser?._id}>
+            <Typography variant="body2" color="text.secondary" paragraph>
+              <button onClick={() => {
+                navigate("/editPost", { state: { post: currentPost } });
+              }}>Edit</button>
+            </Typography>
           </div>
         </Box>
       </CardContent>

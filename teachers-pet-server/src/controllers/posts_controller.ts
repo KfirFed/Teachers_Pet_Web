@@ -93,6 +93,16 @@ const handleLikeClick = async (req, res) => {
   }
 };
 
+const deletePostById = async (req, res) => {
+  const postId = req.params.id;
+  try {
+    await PostModel.findByIdAndDelete(postId);
+    res.status(200).send("Post deleted");
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
+
 export default {
   getAllPosts,
   createPost,
@@ -100,4 +110,5 @@ export default {
   getAllPostsBySenderId,
   updatePostById,
   handleLikeClick,
+  deletePostById,
 };
