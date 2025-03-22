@@ -49,7 +49,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       try {
         const response = await axiosCreateImage(ImageData);
         setImageUrl(response.data.url as string || "");
-        console.log(setImageUrl);
         return imageUrl;
       } catch (err) {
         console.log(err);
@@ -66,7 +65,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
     try {
       uploadImage(imageFile || {} as File);
-      console.log("image url", imageUrl);
       await onSubmit(email, username, password, imageUrl || "");
     } catch (err) {
       setErrors({ submit: "There was an error" });

@@ -38,7 +38,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         localStorage.setItem("accessToken", user.accessToken);
         localStorage.setItem("refreshToken", user.refreshToken);
         localStorage.setItem("user", JSON.stringify(user));
-        console.log("useruser", user);
     }, []);
 
     const resetConnectedUser = useCallback(() => {

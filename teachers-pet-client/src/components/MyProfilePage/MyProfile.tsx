@@ -10,24 +10,21 @@ import {
   Typography,
 } from "@mui/material";
 import { useContext, useState } from "react";
-import { askAI } from "../../axios/AI";
-import styles from "./MyProfile.module.css";
+import { axiosUpdateUser } from "../../axios/User";
 import { UserContext } from "../../context/UserContext";
 import { axiosCreateImage } from "../../axios/Images";
 
 export const MyProfile: React.FC = () => {
+  const { updateConnectedUser } = useContext(UserContext);
+
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { connectedUser } = useContext(UserContext);
   const [username, setUsername] = useState(connectedUser?.username || "");
-  const [profileImage, setProfileImage] = useState(
-    connectedUser?.profileImage || ""
-  );
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File>();
-  const [imageUrl, setImageUrl] = useState<string>(connectedUser?.profileImage || "");
   const [image, setImage] = useState<string>(connectedUser?.profileImage || "");
+  const [imageUrl, setImageUrl] = useState<string>();
 
-  console.log("check", imageUrl);
 
   const ImageView = styled(Box)(({ theme }) => ({
     width: "100%",
@@ -48,21 +45,55 @@ export const MyProfile: React.FC = () => {
     }
   };
 
-  const uploadImage = async (file: File) => {
-    const ImageData = new FormData();
-    if (file) {
-      ImageData.append("file", file);
-      try {
-        const response = await axiosCreateImage(ImageData);
-        setImageUrl((response.data.url as string) || "");
-        console.log(setImageUrl);
-        return imageUrl;
-      } catch (err) {
-        console.log(err);
-        return;
-      }
+const uploadImage = async (file: File) => {
+  const ImageData = new FormData();
+  if (file) {
+    ImageData.append("file", file);
+    try {
+      const response = await axiosCreateImage(ImageData);
+      const uploadedUrl = response.data.url;
+      setImageUrl(uploadedUrl);
+      return uploadedUrl;
+    } catch (err) {
+      console.log(err);
+      return "";
     }
-    return imageUrl;
+  }
+  return "";
+};
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    const accessToken = connectedUser?.accessToken;
+
+    if (!accessToken) {
+      setErrors({ submit: "No access token found" });
+      return;
+    }
+
+    try {
+    const uploadedUrl = await uploadImage(imageFile || ({} as File));
+      await axiosUpdateUser(
+        {
+          _id: connectedUser?._id,
+          username,
+          profileImage: uploadedUrl,
+        },
+        accessToken
+      );
+      updateConnectedUser({
+        ...connectedUser,
+        username,
+        profileImage: uploadedUrl,
+      });
+    } catch (err) {
+      setErrors({ submit: "There was an error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -80,7 +111,7 @@ export const MyProfile: React.FC = () => {
           <Typography variant="h5" component="h1" gutterBottom align="center">
             Edit Profile
           </Typography>
-          <Box component="form" sx={{ mt: 2 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
             <TextField
               fullWidth
               margin="normal"
@@ -89,7 +120,6 @@ export const MyProfile: React.FC = () => {
               required
               autoComplete="email"
               disabled
-              // className={styles.input}
             />
             <TextField
               fullWidth
@@ -101,7 +131,6 @@ export const MyProfile: React.FC = () => {
               autoComplete="Username"
               error={!!errors.username}
               helperText={errors.username}
-              // className={styles.input}
             />
             <label
               htmlFor="photo-upload"
@@ -116,8 +145,8 @@ export const MyProfile: React.FC = () => {
                 onChange={onImageUpload}
                 style={{ display: "none" }}
               />
-              {imageUrl ? (
-                <CardMedia component="img" height="194" image={imageUrl} />
+              {image ? (
+                <CardMedia component="img" height="194" image={image} />
               ) : (
                 <ImageView />
               )}
