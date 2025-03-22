@@ -6,3 +6,9 @@ export interface ConnectedUser {
     accessToken: string;
     refreshToken: string;
 }
+
+export interface UpdateUser {
+    _id: string;
+    username: string;
+    profileImage: string;
+}
