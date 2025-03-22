@@ -20,7 +20,6 @@ export const NavBar: React.FC = () => {
       if (!connectedUser?.refreshToken) {
         throw new Error("User not logged in");
       }
-      console.log(connectedUser?.refreshToken);
       await logout(connectedUser, connectedUser?.refreshToken);
       resetConnectedUser();
       navigate("/landing");

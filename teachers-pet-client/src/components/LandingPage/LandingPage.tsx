@@ -18,7 +18,6 @@ export const LandingPage: React.FC<{}> = ({ }) => {
       if (credentialResponse.credential) {
         const connectedUser = await loginWithGoogle(credentialResponse.credential);
         if (connectedUser) {
-          console.log(connectedUser);
           updateConnectedUser(connectedUser);
           navigate("/posts");
         }
