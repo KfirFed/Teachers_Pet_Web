@@ -22,11 +22,11 @@ app.use(
 );
 const port = process.env.PORT;
 
-// mongoose.connect(process.env.DB_URL as string);
-// const db = mongoose.connection;
+mongoose.connect(process.env.DB_URL as string);
+const db = mongoose.connection;
 
-// db.on("error", (error) => console.error(error));
-// db.once("open", () => console.log("Connected to database"));
+db.on("error", (error) => console.error(error));
+db.once("open", () => console.log("Connected to database"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,9 +40,9 @@ app.use("/public", express.static("public"));
 app.use("/image", imagesRoute);
 app.use(express.static("images"));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join("images", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join("images", "index.html"));
+// });
 
 export const swagger = (app: Express) => {
   const swaggerOptions = {
