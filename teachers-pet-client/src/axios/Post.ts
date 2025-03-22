@@ -28,4 +28,21 @@ const axiosCreatePost = async (post: CreatePost, accessToken: string): Promise<R
     }
 };
 
-export { axiosGetAllPosts, axiosGetPostsBySender, axiosCreatePost }
+const axiosLikePost = async (postId: string, userId: string, accessToken: string): Promise<Response> => {
+    try {
+        return await axiosConnection.put(
+          `${POST_ROUTE}/${postId}/like`,
+          { postId, userId },
+          { headers: { authorization: `Bearer ${accessToken}` } }
+        );
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || "Error");
+    }
+}
+
+export {
+  axiosGetAllPosts,
+  axiosGetPostsBySender,
+  axiosCreatePost,
+  axiosLikePost,
+};
