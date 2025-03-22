@@ -1,32 +1,78 @@
 import style from "./Register.module.css";
 import React, { useState } from "react";
-import { Typography, TextField, Button, Alert, Box } from "@mui/material";
+import { Typography, TextField, Button, Alert, Box, CardMedia, styled } from "@mui/material";
+import { axiosCreateImage } from "../../axios/Images";
 
 interface FormProps {
-  onSubmit: (email: string, username: string, password: string, profileImage: string) => void;
+  onSubmit: (
+    email: string,
+    username: string,
+    password: string,
+    profileImage: string
+  ) => void;
 }
 
 const Form: React.FC<FormProps> = ({ onSubmit }) => {
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [profileImage, setProfileImage] = useState("");
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [loading, setLoading] = useState(false);
+  const [imageFile, setImageFile] = useState<File>();
+  const [imageUrl, setImageUrl] = useState<string>();
+  const [image, setImage] = useState<string>();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+  const ImageView = styled(Box)(({ theme }) => ({
+    width: "100%",
+    height: 200,
+    backgroundColor: theme.palette.grey[200],
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  }));
 
-        setLoading(true);
+  const onImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const newURL = URL.createObjectURL(e.target.files[0]);
+      setImage(newURL);
+      setImageFile(e.target.files[0]);
+    }
+  };
 
-        try {
-            await onSubmit(email, username, password, profileImage);
-        } catch (err) {
-            setErrors({ submit: "There was an error" });
-        } finally {
-            setLoading(false);
-        }
-    };
+  const uploadImage = async (file: File) => {
+    const ImageData = new FormData();
+    if (file) {
+      ImageData.append("file", file);
+      try {
+        const response = await axiosCreateImage(ImageData);
+        setImageUrl(response.data.url as string || "");
+        console.log(setImageUrl);
+        return imageUrl;
+      } catch (err) {
+        console.log(err);
+        return;
+      }
+    }
+    return imageUrl;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    try {
+      uploadImage(imageFile || {} as File);
+      await onSubmit(email, username, password, imageUrl || "");
+    } catch (err) {
+      setErrors({ submit: "There was an error" });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box>
@@ -68,16 +114,27 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
           error={!!errors.password}
           helperText={errors.password}
         />
-        <TextField
-          fullWidth
-          margin="normal"
-          type="file"
-          value={profileImage}
-          onChange={(e) => setProfileImage(e.target.value)}
-          required
-          error={!!errors.profileImage}
-          helperText={errors.profileImage}
-        />
+
+        <label
+          htmlFor="photo-upload"
+          style={{
+            cursor: "pointer",
+          }}
+        >
+          <input
+            id="photo-upload"
+            type="file"
+            accept="image/*"
+            onChange={onImageUpload}
+            style={{ display: "none" }}
+          />
+          {image ? (
+            <CardMedia component="img" height="194" image={image} />
+          ) : (
+            <ImageView />
+          )}
+        </label>
+
         {errors.submit && (
           <Alert severity="error" sx={{ mt: 2 }}>
             {errors.submit}

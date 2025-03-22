@@ -7,11 +7,12 @@ import { UserContext } from "../../context/UserContext";
 export const MyProfile: React.FC = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { connectedUser } = useContext(UserContext);
-  const [username, setUsername] = useState(connectedUser?.name || "");
+  const [username, setUsername] = useState(connectedUser?.username || "");
   const [profileImage, setProfileImage] = useState(connectedUser?.profileImage || "");
   const [loading, setLoading] = useState(false);
 
   console.log('connectedUser', connectedUser)
+  console.log(connectedUser?.profileImage);
 
 
   // setUsername(connectedUser?.name || "");
