@@ -54,6 +54,10 @@ const updatePostById = async (req, res) => {
   const postBody = req.body;
 
   try {
+    if (!postBody.image) {
+      const post = await PostModel.findById(postId);
+      postBody.image = post.image;
+    }
     await PostModel.findByIdAndUpdate(postId, postBody);
     res.status(200).send("Post updated");
   } catch (error) {
@@ -93,6 +97,16 @@ const handleLikeClick = async (req, res) => {
   }
 };
 
+const deletePostById = async (req, res) => {
+  const postId = req.params.id;
+  try {
+    await PostModel.findByIdAndDelete(postId);
+    res.status(200).send("Post deleted");
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 export default {
   getAllPosts,
   createPost,
@@ -100,4 +114,5 @@ export default {
   getAllPostsBySenderId,
   updatePostById,
   handleLikeClick,
+  deletePostById,
 };

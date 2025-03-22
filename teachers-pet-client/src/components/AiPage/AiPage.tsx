@@ -10,9 +10,7 @@ export const AiPage: React.FC = () => {
   const onASk = async () => {
     try {
       setAnswer("Take a break for a second, you need it! Almost there...");
-      let limitPrompt =
-        prompt + ". Please let it be maximum 300 characters long.";
-      setAnswer(await askAI(limitPrompt));
+      setAnswer(await askAI(prompt));
       setPrompt("");
     } catch (err: any) {
       console.error(err.message);
@@ -32,6 +30,7 @@ export const AiPage: React.FC = () => {
     >
       <CardContent>
         <h1>Ask AI</h1>
+        <h2>Ask our bot for ideas for lessons. We can make you job easier!</h2>
         <p>{answer}</p>
         <input
           type="text"

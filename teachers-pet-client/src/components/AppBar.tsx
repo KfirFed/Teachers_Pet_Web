@@ -58,6 +58,14 @@ export const NavBar: React.FC = () => {
           >
             Profile
           </Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ mr: 2 }}
+            onClick={() => navigate("/ai")}
+          >
+            AskAI
+          </Typography>
           <Button color="inherit" sx={{ ml: "75%" }} onClick={doLogout}>
             Logout
           </Button>
