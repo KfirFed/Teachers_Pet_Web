@@ -40,8 +40,10 @@ export const loginWithGoogle = async (
   credential: string
 ): Promise<ConnectedUser> => {
   try {
-    return (await axiosConnection.post(`${AUTH_ROUTE}/google`, { credential }))
+    const data = (await axiosConnection.post(`${AUTH_ROUTE}/google`, { credential }))
       .data;
+      console.log(data);
+      return data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || "Google login failed");
   }

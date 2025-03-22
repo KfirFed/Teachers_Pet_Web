@@ -126,19 +126,13 @@ export const googleLogin = async (req: Request, res: Response) => {
         profileImage: ""
       });
     }
-
     const userTokens = generateToken(user._id);
     await updateRefreshTokenByUserId(user, userTokens.refreshToken);
-
     user = {
-      email: user.email,
-      password: user.password,
-      username: user.username,
-      refreshToken: [userTokens.refreshToken],
-      profileImage: "",
-    };
-
-    res.status(200).send(user._id);
+      ...user,
+      accessToken: userTokens.accessToken,
+    }
+    res.status(200).send(user);
   } catch (error: any) {
     res.status(401).json({ error: error.message });
   }

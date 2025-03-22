@@ -4,7 +4,7 @@ import styles from "./LandingPage.module.css";
 import { useNavigate } from "react-router-dom";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { UserContext } from "../../context/UserContext";
-import { loginWithGoogle } from "./../../axios/Auth"
+import { loginWithGoogle, login } from "./../../axios/Auth"
 
 export const LandingPage: React.FC<{}> = ({ }) => {
   const navigate = useNavigate();
@@ -18,8 +18,9 @@ export const LandingPage: React.FC<{}> = ({ }) => {
       if (credentialResponse.credential) {
         const connectedUser = await loginWithGoogle(credentialResponse.credential);
         if (connectedUser) {
+          console.log(connectedUser);
           updateConnectedUser(connectedUser);
-          navigate("/post");
+          navigate("/posts");
         }
       }
     } catch (err: any) {
