@@ -66,7 +66,7 @@ const deleteUserById = async (req, res) => {
 };
 
 export const getUserByEmail = async (userEmail: string) => {
-  const user = await usersModel.findOne({userEmail})
+  const user = await usersModel.findOne({email: userEmail})
   if (!user) {
     throw new Error("User not found")
   }
