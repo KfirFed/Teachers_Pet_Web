@@ -3,10 +3,10 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./components/LandingPage";
 import Register from "./components/Register";
 import Login from "./components/Login";
-import { PostsPage } from "./components/PostsPage";
 import AiPage from "./components/AiPage";
+import Profile from "./components/MyProfilePage";
 import { UploadPost } from "./components/UploadPost";
-
+import { PostsPage } from "./components/PostsPage";
 
 const Router: React.FC = () => {
   return (
@@ -16,9 +16,10 @@ const Router: React.FC = () => {
       <Route path="*" element={<Navigate to="/landing" />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/posts" element={<PostsPage />} />
       <Route path="/ai" element={<AiPage />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/uploadPost" element={<UploadPost />} />
+      <Route path="/posts" element={<PostsPage />} />
     </Routes>
   );
 };
