@@ -81,7 +81,7 @@ export const EditPost: React.FC = () => {
           onSubmit={onUpload}
           setImageFile={setImageFile}
           post={post}
-          boxTitle={"Edit Poat"}
+          boxTitle={"Edit Post"}
         />
         <button
           onClick={() => {
