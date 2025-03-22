@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Dialog,
     DialogTitle,
@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import SingleComment from "./SingleComment"
 import { Comment } from "../../types/Comment";
+import { axiosGetAllCommentsByPostId } from './../../axios/Comment'
 
 interface CommentsModalProps {
     isOpen: boolean;
@@ -19,9 +20,23 @@ interface CommentsModalProps {
 const CommentsDialog: React.FC<CommentsModalProps> = ({
     isOpen,
     onClose,
+    postId
 }) => {
     const [newComment, setNewComment] = useState<string>("");
-    const commentsData: Comment[] = []
+    const [commentsData, setCommentsData] = useState<Comment[]>([])
+
+    const getAllCommentsByPost = async (postId: string) => {
+        try {
+            const allCommentsByPost = await axiosGetAllCommentsByPostId(postId)
+            setCommentsData(allCommentsByPost)
+        } catch (err: any) {
+            console.error(err.message);
+        }
+    };
+
+    useEffect(() => {
+        getAllCommentsByPost(postId)
+    }, [postId, isOpen]);
 
     const onSave = async (e: React.FormEvent) => { };
 

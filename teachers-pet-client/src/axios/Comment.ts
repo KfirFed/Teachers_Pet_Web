@@ -18,3 +18,5 @@ const axiosCreateComment = async (comment: CreateComment, accessToken: string): 
         throw new Error(error.response?.data?.message || "Can't create comment");
     }
 };
+
+export { axiosGetAllCommentsByPostId, axiosCreateComment }
