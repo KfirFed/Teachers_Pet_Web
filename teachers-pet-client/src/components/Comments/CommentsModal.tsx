@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     Dialog,
     DialogTitle,
@@ -8,8 +8,10 @@ import {
     Button,
 } from "@mui/material";
 import SingleComment from "./SingleComment"
-import { Comment } from "../../types/Comment";
-import { axiosGetAllCommentsByPostId } from './../../axios/Comment'
+import { Comment, CreateComment } from "../../types/Comment";
+import { axiosGetAllCommentsByPostId, axiosCreateComment } from './../../axios/Comment'
+import { UserContext } from "../../context/UserContext";
+
 
 interface CommentsModalProps {
     isOpen: boolean;
@@ -24,6 +26,8 @@ const CommentsDialog: React.FC<CommentsModalProps> = ({
 }) => {
     const [newComment, setNewComment] = useState<string>("");
     const [commentsData, setCommentsData] = useState<Comment[]>([])
+    const { connectedUser } = useContext(UserContext);
+
 
     const getAllCommentsByPost = async (postId: string) => {
         try {
@@ -34,11 +38,22 @@ const CommentsDialog: React.FC<CommentsModalProps> = ({
         }
     };
 
+    const onSave = async () => {
+        try {
+            const commentToAdd: CreateComment = { postId: postId, content: newComment, owner: connectedUser?._id }
+            const response = await axiosCreateComment(commentToAdd, connectedUser?.accessToken!)
+            if (response.status === 200) {
+                setNewComment("");
+                getAllCommentsByPost(postId)
+            }
+        } catch (err: any) {
+            console.error(err.message);
+        }
+    };
+
     useEffect(() => {
         getAllCommentsByPost(postId)
-    }, [postId, isOpen]);
-
-    const onSave = async (e: React.FormEvent) => { };
+    }, [postId, isOpen, connectedUser]);
 
     return (
         <Dialog open={isOpen} onClose={onClose} maxWidth='sm' fullWidth>

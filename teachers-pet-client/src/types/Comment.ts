@@ -8,7 +8,7 @@ interface Comment {
 interface CreateComment {
     postId: string;
     content: string;
-    ownerId: string
+    owner: string | undefined
 }
 
 export type { Comment, CreateComment }
