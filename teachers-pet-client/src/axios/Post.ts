@@ -30,7 +30,7 @@ const axiosCreatePost = async (post: CreatePost, accessToken: string): Promise<R
 
 const axiosLikePost = async (postId: string, userId: string, accessToken: string): Promise<Response> => {
     try {
-        return await axiosConnection.post(
+        return await axiosConnection.put(
           `${POST_ROUTE}/${postId}/like`,
           { postId, userId },
           { headers: { authorization: `Bearer ${accessToken}` } }

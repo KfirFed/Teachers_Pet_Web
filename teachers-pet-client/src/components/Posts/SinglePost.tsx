@@ -28,17 +28,15 @@ const SinglePostStyle = styled(Card)(({ theme }) => ({
 }));
 
 export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
+  console.log(post._id);
   const { connectedUser } = useContext(UserContext);
   const [currentPost, setCurrentPost] = useState<Post>(post);
 
   const handleLike = () => {
     if (!connectedUser) return;
+    const accessToken = connectedUser?.accessToken;
     try {
-      axiosLikePost(
-        currentPost.id,
-        connectedUser._id,
-        connectedUser.accessToken
-      );
+      axiosLikePost(currentPost._id, connectedUser._id, accessToken);
       if (currentPost.likes.includes(connectedUser._id)) {
         setCurrentPost({
           ...currentPost,
