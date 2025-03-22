@@ -70,7 +70,7 @@ export const UploadPost: React.FC = () => {
       }}
     >
       <CardContent>
-        <PostForm onSubmit={onUpload} setImageFile={setImageFile} />
+        <PostForm onSubmit={onUpload} setImageFile={setImageFile} post={undefined} boxTitle="Create Post"/>
       </CardContent>
     </Card>
   );

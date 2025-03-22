@@ -54,6 +54,10 @@ const updatePostById = async (req, res) => {
   const postBody = req.body;
 
   try {
+    if (!postBody.image) {
+      const post = await PostModel.findById(postId);
+      postBody.image = post.image;
+    }
     await PostModel.findByIdAndUpdate(postId, postBody);
     res.status(200).send("Post updated");
   } catch (error) {
@@ -101,7 +105,7 @@ const deletePostById = async (req, res) => {
   } catch (error) {
     res.status(400).send(error.message);
   }
-}
+};
 
 export default {
   getAllPosts,

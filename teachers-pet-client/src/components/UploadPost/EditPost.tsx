@@ -2,18 +2,21 @@ import { Card, CardContent } from "@mui/material";
 import PostForm from "./../Posts/PostForm";
 import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
-import { axiosCreatePost, deletePost } from "./../../axios/Post";
-import { CreatePost, Post } from "../../types/Post";
+import {
+  axiosUpdatePost,
+  deletePost,
+} from "./../../axios/Post";
+import { Post, PostEdit } from "../../types/Post";
 import { useLocation, useNavigate } from "react-router-dom";
 import { axiosCreateImage } from "./../../axios/Images";
 
 export const EditPost: React.FC = () => {
   const location = useLocation();
   const post = location.state?.post as Post;
+  const postId = post?._id;
   const { connectedUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [imageFile, setImageFile] = useState<File>();
-  const [imageUrl, setImageUrl] = useState<string>();
 
   const uploadImage = async (file: File) => {
     const ImageData = new FormData();
@@ -22,7 +25,6 @@ export const EditPost: React.FC = () => {
       try {
         const response = await axiosCreateImage(ImageData);
         const uploadedUrl = response.data.url;
-        setImageUrl(uploadedUrl);
         return uploadedUrl;
       } catch (err) {
         console.log(err);
@@ -41,17 +43,19 @@ export const EditPost: React.FC = () => {
         return;
       }
 
-      const uploadedUrl = await uploadImage(imageFile || ({} as File));
-
-      const post: CreatePost = {
+      const post: PostEdit = {
+        _id: postId,
         title,
         content,
-        image: uploadedUrl,
         senderId: connectedUser?._id,
-        likes: [],
       };
 
-      const response = await axiosCreatePost(post, accessToken);
+      if (imageFile !== undefined) {
+        const uploadedUrl = await uploadImage(imageFile || ({} as File));
+        post.image = uploadedUrl;
+      }
+
+      const response = await axiosUpdatePost(post, accessToken);
 
       if (response.status === 200) {
         navigate("/posts");
@@ -73,7 +77,12 @@ export const EditPost: React.FC = () => {
       hidden={!post}
     >
       <CardContent>
-        <PostForm onSubmit={onUpload} setImageFile={setImageFile} post={post} />
+        <PostForm
+          onSubmit={onUpload}
+          setImageFile={setImageFile}
+          post={post}
+          boxTitle={"Edit Poat"}
+        />
         <button
           onClick={() => {
             deletePost(post?._id || "", connectedUser?.accessToken!!);

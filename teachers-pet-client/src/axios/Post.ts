@@ -1,5 +1,5 @@
 import axiosConnection from "./AxiosConnection";
-import { Post, CreatePost } from "../types/Post";
+import { Post, CreatePost, PostEdit } from "../types/Post";
 
 const POST_ROUTE = "/posts";
 
@@ -39,6 +39,19 @@ const axiosCreatePost = async (
   }
 };
 
+const axiosUpdatePost = async (
+  post: PostEdit,
+  accessToken: string
+): Promise<Response> => {
+  try {
+    return await axiosConnection.put(`${POST_ROUTE}/${post._id}`, post, {
+      headers: { authorization: `Bearer ${accessToken}` },
+    });
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Can't update post");
+  }
+};
+
 const deletePost = async (
   postId: string,
   accessToken: string
@@ -74,4 +87,5 @@ export {
   axiosCreatePost,
   axiosLikePost,
   deletePost,
+  axiosUpdatePost,
 };
