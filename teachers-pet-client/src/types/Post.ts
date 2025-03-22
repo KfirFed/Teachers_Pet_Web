@@ -4,7 +4,7 @@ interface Post {
   content: string;
   image: string;
   senderId: string;
-  likes?: string[];
+  likes: string[];
 }
 
 interface CreatePost {

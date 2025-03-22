@@ -112,7 +112,7 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
                 ❤️: {currentPost.likes.length}
               </Typography>
               <Typography variant="body2" color="text.secondary" paragraph>
-                <button onClick={() => handleLike}>
+                <button onClick={handleLike}>
                   {!currentPost.likes.includes(connectedUser?._id!!)
                     ? "Like"
                     : "Dislike"}
