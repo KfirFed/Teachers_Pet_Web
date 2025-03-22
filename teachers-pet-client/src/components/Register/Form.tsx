@@ -48,14 +48,15 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       ImageData.append("file", file);
       try {
         const response = await axiosCreateImage(ImageData);
-        setImageUrl(response.data.url as string || "");
-        return imageUrl;
+        const uploadedUrl = response.data.url;
+        setImageUrl(uploadedUrl);
+        return uploadedUrl;
       } catch (err) {
         console.log(err);
-        return;
+        return "";
       }
     }
-    return imageUrl;
+    return "";
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,8 +65,8 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     setLoading(true);
 
     try {
-      uploadImage(imageFile || {} as File);
-      await onSubmit(email, username, password, imageUrl || "");
+      const uploadedUrl = await uploadImage(imageFile || ({} as File));
+      await onSubmit(email, username, password, uploadedUrl || "");
     } catch (err) {
       setErrors({ submit: "There was an error" });
     } finally {
