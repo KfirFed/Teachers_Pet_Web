@@ -11,7 +11,7 @@ const axiosGetAllCommentsByPostId = async (postId: string): Promise<Comment[]> =
     }
 };
 
-const axiosCreatePost = async (comment: CreateComment, accessToken: string): Promise<Response> => {
+const axiosCreateComment = async (comment: CreateComment, accessToken: string): Promise<Response> => {
     try {
         return (await axiosConnection.post(`${COMMENT_ROUTE}/`, comment, { headers: { authorization: `Bearer ${accessToken}` } }))
     } catch (error: any) {
