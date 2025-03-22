@@ -2,6 +2,7 @@ import request from "supertest";
 import { initApp } from "../server";
 import dotenv from "dotenv";
 import { Express } from "express";
+import mongoose from "mongoose";
 
 dotenv.config();
 let app: Express;
@@ -13,6 +14,7 @@ beforeAll(async () => {
 
 afterAll(() => {
   console.log("AI: After all tests");
+  mongoose.connection.destroy();
 });
 
 describe("AI Test", () => {
@@ -25,5 +27,4 @@ describe("AI Test", () => {
       });
     expect(response.status).toBe(200);
   });
-
 });

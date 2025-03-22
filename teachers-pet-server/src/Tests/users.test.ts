@@ -60,6 +60,7 @@ describe("Users Test", () => {
         username: "newUser",
         password: "123456",
         email: "new@gmail.com",
+        profileImage: "localhost:3000/public/1742648624867.png",
       });
     expect(response.status).toBe(201);
   });
