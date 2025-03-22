@@ -7,6 +7,8 @@ import {
     Box,
     Button,
 } from "@mui/material";
+import SingleComment from "./SingleComment"
+import { Comment } from "../../types/Comment";
 
 interface CommentsModalProps {
     isOpen: boolean;
@@ -19,6 +21,7 @@ const CommentsDialog: React.FC<CommentsModalProps> = ({
     onClose,
 }) => {
     const [newComment, setNewComment] = useState<string>("");
+    const commentsData: Comment[] = []
 
     const onSave = async (e: React.FormEvent) => { };
 
@@ -40,7 +43,9 @@ const CommentsDialog: React.FC<CommentsModalProps> = ({
 
             <DialogContent>
                 <Box sx={{ mb: 2, maxHeight: "60vh", overflowY: "auto" }}>
-                    {/* all comments here */}
+                    {commentsData.map((comment: Comment) => (
+                        <SingleComment comment={comment} />
+                    ))}
                 </Box>
                 <Box
                     component='form'
