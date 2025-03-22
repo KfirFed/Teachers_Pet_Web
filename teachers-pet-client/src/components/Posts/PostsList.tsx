@@ -19,7 +19,7 @@ export const PostsList: React.FC<PostsList> = ({
             }}>
             {postsData.map((post: Post) => (
                 <SinglePost
-                    key={post?.id}
+                    key={post?._id}
                     post={post}
                 />
             ))}

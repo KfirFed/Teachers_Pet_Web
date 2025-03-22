@@ -4,7 +4,7 @@ const getCommentsByPostId = async (req, res) => {
   const postId = req.params.id;
   try {
     const comments = await commentsModel.find({ postId: postId });
-    if (comments && comments.length > 0) {
+    if (comments) {
       res.send(comments);
     } else {
       res.status(404).send("Post not found");
@@ -34,6 +34,7 @@ const createComment = async (req, res) => {
     const comment = await commentsModel.create(commentBody);
     res.status(201).send(comment);
   } catch (error) {
+    console.log(error.message);
     res.status(400).send(error.message);
   }
 };
