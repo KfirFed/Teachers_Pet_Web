@@ -9,15 +9,20 @@ const axiosConnection = axios.create({
     },
 });
 
-axiosConnection.interceptors.request.use(
-    (config) => {
-        config.headers["Authorization"] = `Bearer ${localStorage.getItem("accessToken")}`;
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    }
-);
+// axiosConnection.interceptors.request.use(
+//     (config) => {
+//         if (!config.headers["Authorization"]) {
+//           const accessToken = localStorage.getItem("accessToken");
+//           if (accessToken) {
+//             config.headers["Authorization"] = `Bearer ${accessToken}`;
+//           }
+//         }
+//         return config;
+//     },
+//     (error) => {
+//         return Promise.reject(error);
+//     }
+// );
 
 axiosConnection.interceptors.response.use((response) => response);
 

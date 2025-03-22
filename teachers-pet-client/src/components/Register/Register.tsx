@@ -11,6 +11,7 @@ import { axiosCreateImage } from "../../axios/Images";
 
 export const Register: React.FC = () => {
   const { updateConnectedUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const onRegister = async (
     email: string,
@@ -27,6 +28,7 @@ export const Register: React.FC = () => {
       );
       if (!!connectedUser) {
         updateConnectedUser(connectedUser);
+        navigate("/posts");
       }
     } catch (err: any) {
       console.error(err.message);

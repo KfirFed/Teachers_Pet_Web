@@ -7,8 +7,12 @@ import AiPage from "./components/AiPage";
 import Profile from "./components/MyProfilePage";
 import { UploadPost } from "./components/UploadPost";
 import { PostsPage } from "./components/PostsPage";
+import { useContext } from "react";
+import { UserContext } from "./context/UserContext";
 
 const Router: React.FC = () => {
+  const { connectedUser } = useContext(UserContext);
+
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/landing" />} />
@@ -16,10 +20,38 @@ const Router: React.FC = () => {
       <Route path="*" element={<Navigate to="/landing" />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/ai" element={<AiPage />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/uploadPost" element={<UploadPost />} />
-      <Route path="/posts" element={<PostsPage />} />
+      <Route
+        path="/ai"
+        element={
+          connectedUser?.accessToken ? <AiPage /> : <Navigate to="/landing" />
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          connectedUser?.accessToken ? <Profile /> : <Navigate to="/landing" />
+        }
+      />
+      <Route
+        path="/uploadPost"
+        element={
+          connectedUser?.accessToken ? (
+            <UploadPost />
+          ) : (
+            <Navigate to="/landing" />
+          )
+        }
+      />
+      <Route
+        path="/posts"
+        element={
+          connectedUser?.accessToken ? (
+            <PostsPage />
+          ) : (
+            <Navigate to="/landing" />
+          )
+        }
+      />
     </Routes>
   );
 };

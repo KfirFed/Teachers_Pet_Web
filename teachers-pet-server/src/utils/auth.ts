@@ -32,17 +32,23 @@ const generateToken = (userId: string): Tokens | null => {
 };
 
 const verifyRefreshToken = (refreshToken: string | undefined) => {
+  console.log(refreshToken);
   return new Promise<UserType>((resolve, reject) => {
     if (!refreshToken) {
       reject("fail");
       return;
     }
+
     if (!process.env.TOKEN_SECRET) {
       reject("fail");
       return;
     }
+    const pureToken = refreshToken.startsWith("Bearer ")
+      ? refreshToken.slice(7)
+      : refreshToken;
+
     jwt.verify(
-      refreshToken,
+      pureToken,
       process.env.TOKEN_SECRET,
       async (err: any, payload: any) => {
         if (err) {
@@ -56,14 +62,19 @@ const verifyRefreshToken = (refreshToken: string | undefined) => {
             reject("fail");
             return;
           }
-          if (!user.refreshToken || !user.refreshToken.includes(refreshToken)) {
+          console.log(user.refreshToken);
+          console.log(pureToken);
+          if (!user.refreshToken || !user.refreshToken.includes(pureToken.toString())) {
             user.refreshToken = [];
             await user.save();
             reject("fail");
             return;
           }
+
+          console.log("hereeeeeeeee");
+
           const tokens = user.refreshToken!.filter(
-            (token) => token !== refreshToken
+            (token) => token !== pureToken
           );
           user.refreshToken = tokens;
 
