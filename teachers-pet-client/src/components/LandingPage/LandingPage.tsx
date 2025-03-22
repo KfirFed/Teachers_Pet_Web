@@ -2,11 +2,14 @@ import React from "react";
 import logo from "../../assets/logo.png";
 import styles from "./LandingPage.module.css";
 import { useNavigate } from "react-router-dom";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
-interface LandingPageProps {}
+interface LandingPageProps { }
 
-export const LandingPage: React.FC<LandingPageProps> = ({}) => {
+export const LandingPage: React.FC<LandingPageProps> = ({ }) => {
   const navigate = useNavigate();
+
+  const handleGoogleLogin = () => { }
 
   return (
     <div className={styles.container}>
@@ -34,12 +37,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({}) => {
         </button>
       </div>
       <div>
-        <button
-          className={`${styles.button} ${styles.googleButton}`}
-          // onClick={onLoginClick}
-        >
-          Sign Up with Google
-        </button>
+        {/* <GoogleLogin
+          size='medium'
+          onSuccess={handleGoogleLogin}
+          onError={() => console.log("Google Login Failed")}
+          useOneTap={false}
+        /> */}
       </div>
     </div>
   );
