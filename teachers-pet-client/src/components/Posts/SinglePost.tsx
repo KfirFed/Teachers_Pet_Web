@@ -28,9 +28,12 @@ const SinglePostStyle = styled(Card)(({ theme }) => ({
 }));
 
 export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
-  console.log(post._id);
   const { connectedUser } = useContext(UserContext);
   const [currentPost, setCurrentPost] = useState<Post>(post);
+
+  const comments = []
+
+  const handleAddComment = () => { }
 
   const handleLike = () => {
     if (!connectedUser) return;
@@ -78,16 +81,31 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
           <Typography variant="body2" color="text.secondary" paragraph>
             {currentPost.content}
           </Typography>
-          <Typography variant="body2" color="text.secondary" paragraph>
-            ❤️: {currentPost.likes.length}
-          </Typography>
-          <Typography variant="body2" color="text.secondary" paragraph>
-            <button onClick={handleLike}>
-              {!currentPost.likes.includes(connectedUser?._id!!)
-                ? "like"
-                : "dislike"}
-            </button>
-          </Typography>
+          <div style={{ display: "grid", gridAutoFlow: "column" }}>
+            <div>
+              <Typography variant="body2" color="text.secondary" paragraph>
+                ❤️: {currentPost.likes.length}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" paragraph>
+                <button onClick={handleLike}>
+                  {!currentPost.likes.includes(connectedUser?._id!!)
+                    ? "Like"
+                    : "Dislike"}
+                </button>
+              </Typography>
+            </div>
+            <div>
+              <Typography variant="body2" color="text.secondary" paragraph>
+                🗨️: {comments.length}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" paragraph>
+                <button onClick={handleAddComment}>
+                  Add Comment
+                </button>
+              </Typography>
+            </div>
+          </div>
+
         </Box>
       </CardContent>
     </SinglePostStyle>

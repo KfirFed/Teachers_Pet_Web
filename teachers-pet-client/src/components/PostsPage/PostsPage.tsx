@@ -12,6 +12,42 @@ export const PostsPage: React.FC = () => {
 
     const { connectedUser } = useContext(UserContext);
 
+    // to remove before push
+    const staticPostData = [
+        {
+            id: '1',
+            title: 'First Post',
+            content: 'This is the content of the first post.',
+            image: 'image1.jpg',
+            senderId: 'user123',
+            likes: ['user456', 'user789'],
+        },
+        {
+            id: '2',
+            title: 'A Second Article',
+            content: 'Another article with interesting details.',
+            image: 'image2.png',
+            senderId: 'user456',
+            likes: ['user123', 'user987', 'user000'],
+        },
+        {
+            id: '3',
+            title: 'Third Time\'s the Charm',
+            content: 'This is a short post.',
+            image: 'image3.gif',
+            senderId: 'user789',
+            likes: ['user000'],
+        },
+        {
+            id: '4',
+            title: 'The Final Entry',
+            content: 'The last entry in this array of objects. A very long post designed to test how multiline strings are displayed.',
+            image: 'image4.jpeg',
+            senderId: 'user987',
+            likes: ['user123', 'user456', 'user789', 'user000'],
+        },
+    ]
+
     const getAllPosts = async () => {
         try {
             const allPostsData: Post[] = await axiosGetAllPosts()
@@ -49,7 +85,7 @@ export const PostsPage: React.FC = () => {
                 onClick={() => setIsFiltered(!isFiltered)}>
                 <FilterAltIcon />
             </IconButton>
-            <PostsList postsData={postsData} />
+            <PostsList postsData={staticPostData} />
         </div>
     );
 };
