@@ -32,8 +32,7 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
   const { connectedUser } = useContext(UserContext);
   const [currentPost, setCurrentPost] = useState<Post>(post);
   const [isCommentsOpen, setIsCommentsOpen] = useState<boolean>(false);
-
-  const comments = []
+  const [commentsNumber, setCommentsNumber] = useState<number>(0);
 
   const handleAddComment = () => setIsCommentsOpen(true)
 
@@ -98,7 +97,7 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
             </div>
             <div>
               <Typography variant="body2" color="text.secondary" paragraph>
-                🗨️: {comments.length}
+                🗨️: {commentsNumber}
               </Typography>
               <Typography variant="body2" color="text.secondary" paragraph>
                 <button onClick={handleAddComment}>
@@ -114,6 +113,7 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
         isOpen={isCommentsOpen}
         onClose={() => setIsCommentsOpen(false)}
         postId={post._id}
+        setCommentsNumber={setCommentsNumber}
       />
     </SinglePostStyle>
   );

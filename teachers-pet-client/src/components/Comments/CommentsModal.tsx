@@ -17,12 +17,14 @@ interface CommentsModalProps {
     isOpen: boolean;
     onClose: () => void;
     postId: string
+    setCommentsNumber: (commentsNumber: number) => void
 }
 
 const CommentsDialog: React.FC<CommentsModalProps> = ({
     isOpen,
     onClose,
-    postId
+    postId,
+    setCommentsNumber
 }) => {
     const [newComment, setNewComment] = useState<string>("");
     const [commentsData, setCommentsData] = useState<Comment[]>([])
@@ -53,6 +55,7 @@ const CommentsDialog: React.FC<CommentsModalProps> = ({
 
     useEffect(() => {
         getAllCommentsByPost(postId)
+        setCommentsNumber(commentsData.length)
     }, [postId, isOpen, connectedUser]);
 
     return (
