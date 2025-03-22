@@ -17,28 +17,21 @@ interface CommentsModalProps {
     isOpen: boolean;
     onClose: () => void;
     postId: string
-    setCommentsNumber: (commentsNumber: number) => void
+    setCommentsNumber: (commentsNumber: number) => void,
+    commentsData: Comment[],
+    fetchComments: (postId: string) => Promise<void>
 }
 
 const CommentsDialog: React.FC<CommentsModalProps> = ({
     isOpen,
     onClose,
     postId,
-    setCommentsNumber
+    setCommentsNumber,
+    commentsData,
+    fetchComments
 }) => {
     const [newComment, setNewComment] = useState<string>("");
-    const [commentsData, setCommentsData] = useState<Comment[]>([])
     const { connectedUser } = useContext(UserContext);
-
-
-    const getAllCommentsByPost = async (postId: string) => {
-        try {
-            const allCommentsByPost = await axiosGetAllCommentsByPostId(postId)
-            setCommentsData(allCommentsByPost)
-        } catch (err: any) {
-            console.error(err.message);
-        }
-    };
 
     const onSave = async () => {
         try {
@@ -46,7 +39,7 @@ const CommentsDialog: React.FC<CommentsModalProps> = ({
             const response = await axiosCreateComment(commentToAdd, connectedUser?.accessToken!)
             if (response.status === 200) {
                 setNewComment("");
-                getAllCommentsByPost(postId)
+                await fetchComments(postId)
             }
         } catch (err: any) {
             console.error(err.message);
@@ -54,7 +47,8 @@ const CommentsDialog: React.FC<CommentsModalProps> = ({
     };
 
     useEffect(() => {
-        getAllCommentsByPost(postId)
+
+        fetchComments(postId)
         setCommentsNumber(commentsData.length)
     }, [postId, isOpen, connectedUser]);
 

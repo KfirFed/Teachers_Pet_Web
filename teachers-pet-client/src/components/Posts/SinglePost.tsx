@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   Typography,
@@ -10,10 +10,12 @@ import {
   Avatar,
 } from "@mui/material";
 import { Post } from "./../../types/Post";
+import { Comment } from "./../../types/Comment";
 import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { axiosLikePost } from "../../axios/Post";
 import CommentsModal from "../Comments/CommentsModal";
+import { axiosGetAllCommentsByPostId } from "../../axios/Comment";
 
 interface SinglePostProps {
   post: Post;
@@ -33,8 +35,19 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
   const [currentPost, setCurrentPost] = useState<Post>(post);
   const [isCommentsOpen, setIsCommentsOpen] = useState<boolean>(false);
   const [commentsNumber, setCommentsNumber] = useState<number>(0);
+  const [commentsData, setCommentsData] = useState<Comment[]>([])
 
   const handleAddComment = () => setIsCommentsOpen(true)
+
+  const getAllCommentsByPost = async (postId: string) => {
+    try {
+      const allCommentsByPost: Comment[] = await axiosGetAllCommentsByPostId(postId)
+      setCommentsData(allCommentsByPost)
+      setCommentsNumber(commentsData.length)
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
 
   const handleLike = () => {
     if (!connectedUser) return;
@@ -56,6 +69,11 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    getAllCommentsByPost(post._id)
+    setCommentsNumber(commentsData.length)
+  }, [connectedUser]);
 
   return (
     <SinglePostStyle>
@@ -114,6 +132,8 @@ export const SinglePost: React.FC<SinglePostProps> = ({ post }) => {
         onClose={() => setIsCommentsOpen(false)}
         postId={post._id}
         setCommentsNumber={setCommentsNumber}
+        commentsData={commentsData}
+        fetchComments={getAllCommentsByPost}
       />
     </SinglePostStyle>
   );
