@@ -42,7 +42,6 @@ export const loginWithGoogle = async (
   try {
     const data = (await axiosConnection.post(`${AUTH_ROUTE}/google`, { credential }))
       .data;
-      console.log(data);
       return data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || "Google login failed");

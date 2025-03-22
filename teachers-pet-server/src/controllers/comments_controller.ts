@@ -1,4 +1,5 @@
 import commentsModel from "../models/comments_model";
+import postModel from "../models/posts_model";
 
 const getCommentsByPostId = async (req, res) => {
   const postId = req.params.id;

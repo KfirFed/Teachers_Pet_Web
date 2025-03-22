@@ -32,7 +32,6 @@ const generateToken = (userId: string): Tokens | null => {
 };
 
 const verifyRefreshToken = (refreshToken: string | undefined) => {
-  console.log(refreshToken);
   return new Promise<UserType>((resolve, reject) => {
     if (!refreshToken) {
       reject("fail");
@@ -62,16 +61,12 @@ const verifyRefreshToken = (refreshToken: string | undefined) => {
             reject("fail");
             return;
           }
-          console.log(user.refreshToken);
-          console.log(pureToken);
           if (!user.refreshToken || !user.refreshToken.includes(pureToken.toString())) {
             user.refreshToken = [];
             await user.save();
             reject("fail");
             return;
           }
-
-          console.log("hereeeeeeeee");
 
           const tokens = user.refreshToken!.filter(
             (token) => token !== pureToken
