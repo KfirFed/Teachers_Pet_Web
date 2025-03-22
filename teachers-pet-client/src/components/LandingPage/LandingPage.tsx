@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from "../../assets/logo.png";
 import styles from "./LandingPage.module.css";
 import { useNavigate } from "react-router-dom";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { UserContext } from "../../context/UserContext";
+import { loginWithGoogle } from "./../../axios/Auth"
 
-interface LandingPageProps {}
-
-export const LandingPage: React.FC<LandingPageProps> = ({}) => {
+export const LandingPage: React.FC<{}> = ({ }) => {
   const navigate = useNavigate();
+  const { updateConnectedUser } = useContext(UserContext);
+
+
+  const handleGoogleLogin = async (
+    credentialResponse: CredentialResponse
+  ) => {
+    try {
+      if (credentialResponse.credential) {
+        const connectedUser = await loginWithGoogle(credentialResponse.credential);
+        if (connectedUser) {
+          updateConnectedUser(connectedUser);
+          navigate("/post");
+        }
+      }
+    } catch (err: any) {
+      console.error("Google login failed:", err.message);
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -32,14 +51,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({}) => {
         >
           Login
         </button>
-      </div>
-      <div>
-        <button
-          className={`${styles.button} ${styles.googleButton}`}
-          // onClick={onLoginClick}
-        >
-          Sign Up with Google
-        </button>
+        <div className={`${styles.button} ${styles.googleButton}`}>
+          <GoogleLogin
+            size='large'
+            onSuccess={handleGoogleLogin}
+            onError={() => console.log("Google Login Failed")}
+            useOneTap={false}
+            width={"460px"}
+          />
+        </div>
       </div>
     </div>
   );
