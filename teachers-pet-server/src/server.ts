@@ -22,11 +22,11 @@ app.use(
 );
 const port = process.env.PORT;
 
-mongoose.connect(process.env.DB_URL as string);
-const db = mongoose.connection;
+// mongoose.connect(process.env.DB_URL as string);
+// const db = mongoose.connection;
 
-db.on("error", (error) => console.error(error));
-db.once("open", () => console.log("Connected to database"));
+// db.on("error", (error) => console.error(error));
+// db.once("open", () => console.log("Connected to database"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,13 +49,13 @@ export const swagger = (app: Express) => {
     definition: {
       openapi: "3.0.0",
       info: {
-        title: "Web class 01 - Ofri & Kfir REST API",
+        title: "Teacher's Pet REST API",
         version: "1.0.0",
-        description: "Ofri & Kfir REST server with jwt authentication",
+        description: "Teacher's Pet REST server",
       },
       servers: [{ url: `${process.env.BASE_URL + port}` }],
     },
-    apis: ["./routes/*.ts"],
+    apis: ["./src/routes/*.ts"],
   };
   const specs = swaggerJsDoc(swaggerOptions);
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
