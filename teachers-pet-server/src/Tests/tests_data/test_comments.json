@@ -1,0 +1,20 @@
+[
+  {
+    "postId": "1234",
+    "content": "Test Comment 1",
+    "owner": "Kfir",
+    "senderId": "1234"
+  },
+  {
+    "postId": "1234",
+    "content": "Test Comment 2",
+    "owner": "Ofri",
+    "senderId": "12345"
+  },
+  {
+    "postId": "5555",
+    "content": "Test Comment 3",
+    "owner": "Kfir",
+    "senderId": "123456"
+  }
+]
