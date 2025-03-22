@@ -39,29 +39,32 @@ app.use("/auth", authRoute);
 app.use("/ai", aiRoute);
 app.use("/public", express.static("public"));
 app.use("/image", imagesRoute);
-app.use(express.static("images"));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname,  "..", "images", "index.html"));
-});
 
 export const swagger = (app: Express) => {
   const swaggerOptions = {
     definition: {
       openapi: "3.0.0",
       info: {
-        title: "Web class 01 - Ofri & Kfir REST API",
+        title: "Teacher's Pet REST API",
         version: "1.0.0",
-        description: "Ofri & Kfir REST server with jwt authentication",
+        description: "Teacher's Pet REST server",
       },
       servers: [{ url: `${process.env.BASE_URL + port}` }],
     },
-    apis: ["./routes/*.ts"],
+    apis: ["./src/routes/*.ts"],
   };
   const specs = swaggerJsDoc(swaggerOptions);
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 };
+
+swagger(app)
+
+app.use(express.static("images"));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "images", "index.html"));
+});
 
 export const initApp = () => {
   return new Promise<Express>((resolve, reject) => {
