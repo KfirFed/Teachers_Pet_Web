@@ -1,5 +1,5 @@
 import axiosConnection from "./AxiosConnection";
-import { Post } from "../types/Post";
+import { Post, CreatePost } from "../types/Post";
 
 const POST_ROUTE = "/posts";
 
@@ -20,4 +20,12 @@ const axiosGetPostsBySender = async (senderId: string | undefined): Promise<Post
     }
 };
 
-export { axiosGetAllPosts, axiosGetPostsBySender }
+const axiosCreatePost = async (post: CreatePost, accessToken: string): Promise<Response> => {
+    try {
+        return (await axiosConnection.post(`${POST_ROUTE}/`, post, { headers: { authorization: `Bearer ${accessToken}` } }));
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || "Can't save new post");
+    }
+};
+
+export { axiosGetAllPosts, axiosGetPostsBySender, axiosCreatePost }

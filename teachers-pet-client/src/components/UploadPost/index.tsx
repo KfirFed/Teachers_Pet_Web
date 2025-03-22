@@ -1,0 +1,1 @@
+export { UploadPost } from "./UploadPost"
