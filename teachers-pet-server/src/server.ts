@@ -39,11 +39,6 @@ app.use("/auth", authRoute);
 app.use("/ai", aiRoute);
 app.use("/public", express.static("public"));
 app.use("/image", imagesRoute);
-app.use(express.static("images"));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "images", "index.html"));
-});
 
 export const swagger = (app: Express) => {
   const swaggerOptions = {
@@ -62,6 +57,14 @@ export const swagger = (app: Express) => {
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 };
+
+swagger(app)
+
+app.use(express.static("images"));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "images", "index.html"));
+});
 
 export const initApp = () => {
   return new Promise<Express>((resolve, reject) => {
