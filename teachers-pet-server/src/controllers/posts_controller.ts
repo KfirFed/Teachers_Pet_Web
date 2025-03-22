@@ -72,7 +72,9 @@ const handleLikeClick = async (req, res) => {
     if (likes.includes(senderId)) {
       likes = likes.filter((id) => id !== senderId);
       try {
-        await PostModel.findByIdAndUpdate(postId, { likes });
+        const post = await PostModel.findById(postId);
+        post.likes = likes;
+        await PostModel.findByIdAndUpdate(postId, post);
         res.status(200).send("Like removed");
       } catch (error) {
         res.status(400).send(error.message);
