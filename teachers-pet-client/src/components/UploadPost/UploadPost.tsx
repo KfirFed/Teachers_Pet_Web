@@ -15,21 +15,19 @@ export const UploadPost: React.FC = () => {
 
   const uploadImage = async (file: File) => {
     const ImageData = new FormData();
-    let imageUrl: string = "";
-
     if (file) {
       ImageData.append("file", file);
       try {
         const response = await axiosCreateImage(ImageData);
-        imageUrl = response.data.url as string;
-        setImageUrl(response.data.url as string);
-        return imageUrl;
+        const uploadedUrl = response.data.url;
+        setImageUrl(uploadedUrl);
+        return uploadedUrl;
       } catch (err) {
         console.log(err);
-        return;
+        return "";
       }
     }
-    return imageUrl;
+    return "";
   };
 
   const onUpload = async (title: string, content: string) => {
@@ -41,12 +39,12 @@ export const UploadPost: React.FC = () => {
         return;
       }
 
-      uploadImage(imageFile!!);
+      const uploadedUrl = await uploadImage(imageFile || ({} as File));
 
       const post: CreatePost = {
         title,
         content,
-        image: imageUrl,
+        image: uploadedUrl,
         senderId: connectedUser?._id,
         likes: [],
       };
