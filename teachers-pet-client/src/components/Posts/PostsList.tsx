@@ -1,28 +1,53 @@
+import React, { useState } from "react";
 import { Post } from "./../../types/Post";
 import { SinglePost } from "./SinglePost";
 
-export interface PostsList {
-    postsData: Post[];
-    direction?: "column" | "row";
+export interface PostsListProps {
+  postsData: Post[];
+  direction?: "column" | "row";
 }
 
-export const PostsList: React.FC<PostsList> = ({
-    postsData,
-    direction = "column",
+export const PostsList: React.FC<PostsListProps> = ({
+  postsData,
+  direction = "column",
 }) => {
-    return (
-        <div
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 3;
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = postsData.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(postsData.length / postsPerPage);
+
+  return (
+    <div>
+      <div style={{ marginTop: "16px", textAlign: "center" }}>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            onClick={() => setCurrentPage(index + 1)}
             style={{
-                display: "grid",
-                gridTemplateColumns: direction === "row" ? "repeat(3, 1fr)" : "1fr",
-                gap: "16px",
-            }}>
-            {postsData.map((post: Post) => (
-                <SinglePost
-                    key={post?._id}
-                    post={post}
-                />
-            ))}
-        </div>
-    );
+              margin: "5px 5px",
+              padding: "8px 12px",
+              backgroundColor: index + 1 === currentPage ? "#ccc" : "#eee",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: direction === "row" ? "repeat(3, 1fr)" : "1fr",
+          gap: "16px",
+        }}
+      >
+        {currentPosts.map((post: Post) => (
+          <SinglePost key={post?._id} post={post} />
+        ))}
+      </div>
+    </div>
+  );
 };
